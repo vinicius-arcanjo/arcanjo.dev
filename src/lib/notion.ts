@@ -37,7 +37,8 @@ async function getPageBlocks(pageId: string): Promise<string> {
           if (isListOpen) {
             content += `</${currentListType}>`;
           }
-          content += `<${listType}>`;
+          const listClass = listType === 'ul' ? 'notion-bulleted-list list-disc pl-6 my-4' : 'notion-numbered-list list-decimal pl-6 my-4';
+          content += `<${listType} class="${listClass}">`;
           currentListType = listType;
           isListOpen = true;
         }
@@ -82,44 +83,62 @@ function processBlock(block: any, isListItem = false): string {
 
   switch (blockType) {
     case 'paragraph':
-      return `<p>${getRichTextContent(blockContent.rich_text)}</p>`;
+      return `<p class="notion-paragraph">${getRichTextContent(blockContent.rich_text)}</p>`;
     case 'heading_1':
-      return `<h1>${getRichTextContent(blockContent.rich_text)}</h1>`;
+      return `<h1 class="notion-h1 text-3xl font-bold mt-8 mb-4">${getRichTextContent(blockContent.rich_text)}</h1>`;
     case 'heading_2':
-      return `<h2>${getRichTextContent(blockContent.rich_text)}</h2>`;
+      return `<h2 class="notion-h2 text-2xl font-bold mt-6 mb-3">${getRichTextContent(blockContent.rich_text)}</h2>`;
     case 'heading_3':
-      return `<h3>${getRichTextContent(blockContent.rich_text)}</h3>`;
+      return `<h3 class="notion-h3 text-xl font-bold mt-4 mb-2">${getRichTextContent(blockContent.rich_text)}</h3>`;
     case 'bulleted_list_item':
       // If it's being processed as part of a list, just return the li element
       return isListItem
-        ? `<li>${getRichTextContent(blockContent.rich_text)}</li>`
-        : `<ul><li>${getRichTextContent(blockContent.rich_text)}</li></ul>`;
+        ? `<li class="notion-list-item">${getRichTextContent(blockContent.rich_text)}</li>`
+        : `<ul class="notion-bulleted-list list-disc pl-6 my-4"><li class="notion-list-item">${getRichTextContent(blockContent.rich_text)}</li></ul>`;
     case 'numbered_list_item':
       // If it's being processed as part of a list, just return the li element
       return isListItem
-        ? `<li>${getRichTextContent(blockContent.rich_text)}</li>`
-        : `<ol><li>${getRichTextContent(blockContent.rich_text)}</li></ol>`;
+        ? `<li class="notion-list-item">${getRichTextContent(blockContent.rich_text)}</li>`
+        : `<ol class="notion-numbered-list list-decimal pl-6 my-4"><li class="notion-list-item">${getRichTextContent(blockContent.rich_text)}</li></ol>`;
     case 'code':
-      return `<pre><code>${getRichTextContent(blockContent.rich_text)}</code></pre>`;
+      return `<pre class="notion-code bg-gray-100 dark:bg-gray-800 p-4 rounded-md overflow-x-auto my-4"><code>${getRichTextContent(blockContent.rich_text)}</code></pre>`;
     case 'quote':
-      return `<blockquote>${getRichTextContent(blockContent.rich_text)}</blockquote>`;
+      return `<blockquote class="notion-quote border-l-4 border-gray-300 dark:border-gray-600 pl-4 italic my-4">${getRichTextContent(blockContent.rich_text)}</blockquote>`;
     case 'divider':
-      return `<hr>`;
+      return `<hr class="notion-divider my-6 border-t border-gray-200 dark:border-gray-700">`;
     case 'image':
       if (blockContent.type === 'external') {
-        return `<figure><img src="${blockContent.external.url}" alt="${blockContent.caption ? getRichTextContent(blockContent.caption) : ''}" />${blockContent.caption ? `<figcaption>${getRichTextContent(blockContent.caption)}</figcaption>` : ''}</figure>`;
+        return `<figure class="notion-image my-6">
+          <img src="${blockContent.external.url}" alt="${blockContent.caption ? getRichTextContent(blockContent.caption) : ''}" class="rounded-lg max-w-full h-auto" />
+          ${blockContent.caption ? `<figcaption class="text-center text-sm text-gray-500 mt-2">${getRichTextContent(blockContent.caption)}</figcaption>` : ''}
+        </figure>`;
       } else if (blockContent.type === 'file') {
-        return `<figure><img src="${blockContent.file.url}" alt="${blockContent.caption ? getRichTextContent(blockContent.caption) : ''}" />${blockContent.caption ? `<figcaption>${getRichTextContent(blockContent.caption)}</figcaption>` : ''}</figure>`;
+        return `<figure class="notion-image my-6">
+          <img src="${blockContent.file.url}" alt="${blockContent.caption ? getRichTextContent(blockContent.caption) : ''}" class="rounded-lg max-w-full h-auto" />
+          ${blockContent.caption ? `<figcaption class="text-center text-sm text-gray-500 mt-2">${getRichTextContent(blockContent.caption)}</figcaption>` : ''}
+        </figure>`;
       }
       return '';
     case 'callout':
-      return `<div class="callout">${blockContent.icon ? `<div class="callout-icon">${blockContent.icon.emoji}</div>` : ''}<div class="callout-content">${getRichTextContent(blockContent.rich_text)}</div></div>`;
+      return `<div class="notion-callout bg-gray-100 dark:bg-gray-800 p-4 rounded-md flex items-start gap-3 my-4">
+        ${blockContent.icon ? `<div class="notion-callout-icon text-xl">${blockContent.icon.emoji}</div>` : ''}
+        <div class="notion-callout-content">${getRichTextContent(blockContent.rich_text)}</div>
+      </div>`;
     case 'toggle':
-      return `<details><summary>${getRichTextContent(blockContent.rich_text)}</summary><div class="toggle-content"></div></details>`;
+      return `<details class="notion-toggle my-4 border border-gray-200 dark:border-gray-700 rounded-md">
+        <summary class="notion-toggle-summary p-3 cursor-pointer font-medium">${getRichTextContent(blockContent.rich_text)}</summary>
+        <div class="notion-toggle-content p-3 pt-0 border-t border-gray-200 dark:border-gray-700"></div>
+      </details>`;
     case 'bookmark':
-      return `<a href="${blockContent.url}" class="bookmark" target="_blank" rel="noopener noreferrer">${blockContent.url}</a>`;
+      return `<a href="${blockContent.url}" class="notion-bookmark block border border-gray-200 dark:border-gray-700 rounded-md p-4 my-4 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors" target="_blank" rel="noopener noreferrer">
+        <div class="text-blue-600 dark:text-blue-400 break-all">${blockContent.url}</div>
+      </a>`;
     case 'table':
-      return `<div class="table-container"><table><tbody></tbody></table></div>`;
+      return `<div class="notion-table-container overflow-x-auto my-4">
+        <table class="notion-table w-full border-collapse border border-gray-200 dark:border-gray-700">
+          <tbody></tbody>
+        </table>
+      </div>`;
     default:
       console.log(`Unhandled block type: ${blockType}`);
       return '';
@@ -138,25 +157,25 @@ function getRichTextContent(richText: any[]): string {
     // Apply text formatting
     if (text.annotations) {
       if (text.annotations.bold) {
-        formattedText = `<strong>${formattedText}</strong>`;
+        formattedText = `<strong class="notion-bold font-bold">${formattedText}</strong>`;
       }
       if (text.annotations.italic) {
-        formattedText = `<em>${formattedText}</em>`;
+        formattedText = `<em class="notion-italic italic">${formattedText}</em>`;
       }
       if (text.annotations.strikethrough) {
-        formattedText = `<del>${formattedText}</del>`;
+        formattedText = `<del class="notion-strikethrough line-through">${formattedText}</del>`;
       }
       if (text.annotations.underline) {
-        formattedText = `<u>${formattedText}</u>`;
+        formattedText = `<u class="notion-underline underline">${formattedText}</u>`;
       }
       if (text.annotations.code) {
-        formattedText = `<code>${formattedText}</code>`;
+        formattedText = `<code class="notion-inline-code bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 rounded text-sm font-mono">${formattedText}</code>`;
       }
     }
 
     // Handle links
     if (text.href) {
-      formattedText = `<a href="${text.href}" target="_blank" rel="noopener noreferrer">${formattedText}</a>`;
+      formattedText = `<a href="${text.href}" class="notion-link text-blue-600 dark:text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">${formattedText}</a>`;
     }
 
     return formattedText;

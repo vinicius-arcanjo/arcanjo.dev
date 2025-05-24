@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Heading } from '@/components/heading';
 import { ArrowLeft, Calendar, Tag } from 'lucide-react';
 import { getDevlogEntryBySlug } from '@/lib/notion';
+import '@/styles/notion.css';
 
 // Generate metadata for the page dynamically based on the slug
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
@@ -25,8 +26,6 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 
 export default async function DevlogPostPage({ params }: { params: { slug: string } }) {
   const entry = await getDevlogEntryBySlug(params.slug);
-
-  console.log(entry);
 
   // If the entry doesn't exist, show a 404 page
   if (!entry) {
@@ -69,7 +68,7 @@ export default async function DevlogPostPage({ params }: { params: { slug: strin
         </header>
 
         <div
-          className="prose prose-zinc dark:prose-invert max-w-none"
+          className="prose prose-zinc dark:prose-invert max-w-none notion-content"
           dangerouslySetInnerHTML={{ __html: entry.content }}
         />
       </article>
