@@ -1,3 +1,5 @@
+'use client'
+
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "motion/react";
 
@@ -11,6 +13,7 @@ export const HoverEffect = ({
     title: string;
     description: string;
     link: string;
+    icon?: React.ReactNode;
   }[];
   className?: string;
 }) => {
@@ -49,6 +52,7 @@ export const HoverEffect = ({
             )}
           </AnimatePresence>
           <Card>
+            {item.icon && <div className="flex justify-center mb-4">{item.icon}</div>}
             <CardTitle>{item.title}</CardTitle>
             <CardDescription>{item.description}</CardDescription>
           </Card>
