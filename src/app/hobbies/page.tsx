@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
-// import { GamesSection } from '@/components/games-section';
-import {  CardHoverEffect } from '@/components/card-hover-effect';
+import { GamesSection } from '@/components/games-section';
+import { CardHoverEffect } from '@/components/card-hover-effect';
 
 export const metadata: Metadata = {
   title: 'Hobbies - Vinícius Arcanjo',
@@ -13,7 +13,7 @@ export default function HobbiesPage() {
       <h1 className="text-3xl font-bold">Games</h1>
       <section className="space-y-6">
         {/*<GamesSection />*/}
-        <CardHoverEffect/>
+        <CardHoverEffect />
       </section>
     </main>
   );

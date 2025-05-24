@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { GameCard, GameCardProps } from "@/components/game-card";
+import { Game3DCard } from "@/components/game-3d-card";
 import { LayoutGrid, List } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
