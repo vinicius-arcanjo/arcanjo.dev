@@ -4,6 +4,7 @@ import { ProjectCard } from "@/components/project-card";
 import { Heading } from '@/components/heading';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { useState } from "react";
+import Link from "next/link";
 
 export function ProjectsSection() {
   const [activeTab, setActiveTab] = useState("opensource");
@@ -42,12 +43,22 @@ export function ProjectsSection() {
               <ProjectCard key={project.url} {...project} />
             ))}
           </div>
+          <div className="mt-4 flex justify-center">
+            <Link href="/projects/opensource" className="text-primary hover:underline">
+              Ver todos os projetos open source →
+            </Link>
+          </div>
         </TabsContent>
         <TabsContent value="private" className="mt-6">
           <div className="grid md:grid-cols-2 gap-4">
             {privateProjects.map((project) => (
               <ProjectCard key={project.url} {...project} />
             ))}
+          </div>
+          <div className="mt-4 flex justify-center">
+            <Link href="/projects/private" className="text-primary hover:underline">
+              Ver todos os projetos privados →
+            </Link>
           </div>
         </TabsContent>
       </Tabs>
