@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function AnimePage() {
   return (
     <main className="space-y-12">
-      <h1 className="text-4xl font-bold tracking-tight text-center mt-10">Anime</h1>
+      <h1 className="text-8xl tracking-tight text-center mt-10">Anime</h1>
       <section className="space-y-6">
         <AnimeSection />
         {/*<BentoGridThirdDemo />*/}
