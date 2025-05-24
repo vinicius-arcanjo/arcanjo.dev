@@ -17,7 +17,7 @@ export function HeroSection() {
       </div>
 
       <div className="space-y-2">
-        <Title size="5xl" font="clock">Vinicius Arcanjo</Title>
+        <Title size="5xl" font="strips">Vinicius Arcanjo</Title>
         <p className="text-muted-foreground text-lg">
           Open Sourcerer | E2E Developer | Palestrante <br/>
           Microsoft MVP on Developer Technologies <br />

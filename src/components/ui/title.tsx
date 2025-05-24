@@ -26,20 +26,20 @@ const sizeClasses = {
 };
 
 const fontClasses = {
-  strips: 'font-[var(--font-michelangelo-strips)]',
-  clock: 'font-[var(--font-michelangelo-clock)]',
-  grunge: 'font-[var(--font-michelangelo-grunge)]',
-  inline: 'font-[var(--font-michelangelo-inline)]',
-  minimal: 'font-[var(--font-michelangelo-minimal)]',
-  outline01: 'font-[var(--font-michelangelo-outline01)]',
-  outline02: 'font-[var(--font-michelangelo-outline02)]',
-  regular: 'font-[var(--font-michelangelo-regular)]',
-  round: 'font-[var(--font-michelangelo-round)]',
-  shadow01: 'font-[var(--font-michelangelo-shadow01)]',
-  shadow02: 'font-[var(--font-michelangelo-shadow02)]',
-  spur: 'font-[var(--font-michelangelo-spur)]',
-  stencil: 'font-[var(--font-michelangelo-stencil)]',
-  vintage: 'font-[var(--font-michelangelo-vintage)]',
+  strips: 'font-michelangelo-strips',
+  clock: 'font-michelangelo-clock',
+  grunge: 'font-michelangelo-grunge',
+  inline: 'font-michelangelo-inline',
+  minimal: 'font-michelangelo-minimal',
+  outline01: 'font-michelangelo-outline01',
+  outline02: 'font-michelangelo-outline02',
+  regular: 'font-michelangelo-regular',
+  round: 'font-michelangelo-round',
+  shadow01: 'font-michelangelo-shadow01',
+  shadow02: 'font-michelangelo-shadow02',
+  spur: 'font-michelangelo-spur',
+  stencil: 'font-michelangelo-stencil',
+  vintage: 'font-michelangelo-vintage',
 };
 
 export function Title({

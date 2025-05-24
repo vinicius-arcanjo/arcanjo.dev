@@ -9,6 +9,22 @@ export default {
   ],
   theme: {
   	extend: {
+  		fontFamily: {
+  			'michelangelo-strips': ['var(--font-michelangelo-strips)'],
+  			'michelangelo-clock': ['var(--font-michelangelo-clock)'],
+  			'michelangelo-grunge': ['var(--font-michelangelo-grunge)'],
+  			'michelangelo-inline': ['var(--font-michelangelo-inline)'],
+  			'michelangelo-minimal': ['var(--font-michelangelo-minimal)'],
+  			'michelangelo-outline01': ['var(--font-michelangelo-outline01)'],
+  			'michelangelo-outline02': ['var(--font-michelangelo-outline02)'],
+  			'michelangelo-regular': ['var(--font-michelangelo-regular)'],
+  			'michelangelo-round': ['var(--font-michelangelo-round)'],
+  			'michelangelo-shadow01': ['var(--font-michelangelo-shadow01)'],
+  			'michelangelo-shadow02': ['var(--font-michelangelo-shadow02)'],
+  			'michelangelo-spur': ['var(--font-michelangelo-spur)'],
+  			'michelangelo-stencil': ['var(--font-michelangelo-stencil)'],
+  			'michelangelo-vintage': ['var(--font-michelangelo-vintage)'],
+  		},
   		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
