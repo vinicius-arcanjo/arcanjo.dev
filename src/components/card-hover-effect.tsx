@@ -1,70 +1,53 @@
-'use client'
-import { useRef, useState, useEffect } from 'react';
+"use client";
 
-interface HoverCardProps {
-  title: string;
-  description: string;
-  imageUrl: string;
-}
+import React from "react";
+import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card";
 
-export function HoverCard({ title, description, imageUrl }: HoverCardProps) {
-  const cardRef = useRef<HTMLDivElement>(null);
-  const [mouseX, setMouseX] = useState(0);
-  const [mouseY, setMouseY] = useState(0);
-  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
-
-  useEffect(() => {
-    if (cardRef.current) {
-      setDimensions({
-        width: cardRef.current.offsetWidth,
-        height: cardRef.current.offsetHeight,
-      });
-    }
-  }, []);
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    setMouseX(e.clientX - rect.left - rect.width / 2);
-    setMouseY(e.clientY - rect.top - rect.height / 2);
-  };
-
-  const handleMouseLeave = () => {
-    setMouseX(0);
-    setMouseY(0);
-  };
-
-  const rotateX = (mouseY / dimensions.height) * -30;
-  const rotateY = (mouseX / dimensions.width) * 30;
-
-  const translateX = (mouseX / dimensions.width) * -40;
-  const translateY = (mouseY / dimensions.height) * -40;
-
+export function CardHoverEffect() {
   return (
-    <div
-      ref={cardRef}
-      className="[perspective:800px] [transform-style:preserve-3d] cursor-pointer"
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-    >
-      <div
-        className="relative w-[240px] h-[320px] bg-zinc-800 rounded-xl overflow-hidden shadow-[inset_0_0_0_5px_#333,inset_0_0_0_6px_rgba(255,255,255,0.5)] transition-transform duration-[1000ms] ease-[cubic-bezier(0.445,0.05,0.55,0.95)]"
-        style={{ transform: `rotateY(${rotateY}deg) rotateX(${rotateX}deg)` }}
-      >
-        <div
-          className="absolute top-[-20px] left-[-20px] w-full h-full bg-cover bg-center bg-no-repeat opacity-50 pointer-events-none transition duration-[1000ms] ease-[cubic-bezier(0.445,0.05,0.55,0.95)]"
-          style={{
-            transform: `translateX(${translateX}px) translateY(${translateY}px)`,
-            backgroundImage: `url(${imageUrl})`,
-          }}
-        />
-        <div className="absolute bottom-0 text-white px-5 py-4 transform translate-y-[40%] transition duration-700 delay-500 ease-[cubic-bezier(0.215,0.61,0.355,1)]">
-          <h1 className="font-serif text-3xl font-bold drop-shadow-[0_10px_10px_rgba(0,0,0,0.5)]">{title}</h1>
-          <p className="mt-2 opacity-0 transition duration-700 delay-500 ease-[cubic-bezier(0.215,0.61,0.355,1)] drop-shadow-md">
-            {description}
-          </p>
+    <CardContainer className="inter-var">
+      <CardBody className="bg-gray-50 relative group/card  dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-auto sm:w-[30rem] h-auto rounded-xl p-6 border  ">
+        <CardItem
+          translateZ="50"
+          className="text-xl font-bold text-neutral-600 dark:text-white"
+        >
+          Make things float in air
+        </CardItem>
+        <CardItem
+          as="p"
+          translateZ="60"
+          className="text-neutral-500 text-sm max-w-sm mt-2 dark:text-neutral-300"
+        >
+          Hover over this card to unleash the power of CSS perspective
+        </CardItem>
+        <CardItem translateZ="100" className="w-full mt-4">
+          <img
+            src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2560&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            height="1000"
+            width="1000"
+            className="h-60 w-full object-cover rounded-xl group-hover/card:shadow-xl"
+            alt="thumbnail"
+          />
+        </CardItem>
+        <div className="flex justify-between items-center mt-20">
+          <CardItem
+            translateZ={20}
+            as="a"
+            href="https://twitter.com/mannupaaji"
+            target="__blank"
+            className="px-4 py-2 rounded-xl text-xs font-normal dark:text-white"
+          >
+            Try now →
+          </CardItem>
+          <CardItem
+            translateZ={20}
+            as="button"
+            className="px-4 py-2 rounded-xl bg-black dark:bg-white dark:text-black text-white text-xs font-bold"
+          >
+            Sign up
+          </CardItem>
         </div>
-      </div>
-    </div>
+      </CardBody>
+    </CardContainer>
   );
 }
