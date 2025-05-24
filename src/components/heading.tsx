@@ -42,7 +42,7 @@ const fontClasses = {
   vintage: 'font-michelangelo-vintage',
 };
 
-export function Title({
+export function Heading({
   children,
   as: Component = 'h1',
   size = '2xl',
