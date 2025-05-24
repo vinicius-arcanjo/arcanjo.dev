@@ -4,6 +4,7 @@ import {
   Box,
   Scroll,
   UserRoundSearch,
+  Palette
 } from 'lucide-react';
 
 const navLinks = [
@@ -11,6 +12,7 @@ const navLinks = [
   { href: '/sandbox', icon: Box, label: 'Sandbox' },
   { href: '/articles', icon: Scroll, label: 'Artigos' },
   { href: '/about', icon: UserRoundSearch, label: 'Sobre' },
+  { href: '/hobbies', icon: Palette, label: 'Hobbies' },
 ];
 
 export function SectionNav() {
