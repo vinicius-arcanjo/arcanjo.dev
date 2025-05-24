@@ -10,6 +10,7 @@ export default {
   theme: {
   	extend: {
   		fontFamily: {
+  			'sans': ['var(--font-styrene-b)', 'var(--font-poppins)', 'sans-serif'],
   			'michelangelo-strips': ['var(--font-michelangelo-strips)'],
   			'michelangelo-clock': ['var(--font-michelangelo-clock)'],
   			'michelangelo-grunge': ['var(--font-michelangelo-grunge)'],

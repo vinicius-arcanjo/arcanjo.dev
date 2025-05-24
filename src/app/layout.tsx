@@ -1,20 +1,23 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
 import localFont from 'next/font/local';
+import { Poppins } from 'next/font/google';
 import './globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 // import { ThemeToggle } from "@/components/theme-toggle";
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
+const styreneB = localFont({
+  src: '../../public/fonts/styrene-b-regular.woff',
+  variable: '--font-styrene-b',
+  display: 'swap',
 });
 
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
+const poppins = Poppins({
   subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-poppins',
+  display: 'swap',
 });
 
 const michelangeloStrips = localFont({
@@ -117,7 +120,8 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
     <body
-      className={`${geistSans.variable} ${geistMono.variable} 
+      className={`${styreneB.variable} 
+      ${poppins.variable}
       ${michelangeloStrips.variable} 
       ${michelangeloClock.variable} 
       ${michelangeloGrunge.variable} 
@@ -132,7 +136,7 @@ export default function RootLayout({
       ${michelangeloSpur.variable} 
       ${michelangeloStencil.variable} 
       ${michelangeloVintage.variable} 
-      antialiased bg-background text-foreground min-h-screen`}
+      antialiased bg-background text-foreground min-h-screen font-sans`}
     >
     <ThemeProvider
       attribute="class"
