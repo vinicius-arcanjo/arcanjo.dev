@@ -66,7 +66,7 @@ export function Heading({
         {text.charAt(0)}
         <span className="relative">
           {text.slice(1)}
-          <span className="absolute bottom-0 left-0 w-full h-1 bg-current"></span>
+          <span className="absolute bottom-[-8px] left-0 w-full h-1 bg-current"></span>
         </span>
       </>
     );
