@@ -3,11 +3,11 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { Heading } from '@/components/heading';
 import { Calendar, Tag, ArrowLeft } from 'lucide-react';
-import { getDevlogEntryBySlug } from '../data';
+import { getDevlogEntryBySlug } from '@/lib/notion';
 
 // Generate metadata for the page dynamically based on the slug
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const entry = getDevlogEntryBySlug(params.slug);
+  const entry = await getDevlogEntryBySlug(params.slug);
 
   if (!entry) {
     return {
@@ -22,8 +22,8 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   };
 }
 
-export default function DevlogPostPage({ params }: { params: { slug: string } }) {
-  const entry = getDevlogEntryBySlug(params.slug);
+export default async function DevlogPostPage({ params }: { params: { slug: string } }) {
+  const entry = await getDevlogEntryBySlug(params.slug);
 
   // If the entry doesn't exist, show a 404 page
   if (!entry) {
