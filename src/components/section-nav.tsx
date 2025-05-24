@@ -9,7 +9,7 @@ import {
 
 const navLinks = [
   { href: '/projects', icon: Code, label: 'Projetos' },
-  { href: '/articles', icon: Scroll, label: 'Artigos' },
+  { href: '/devlog', icon: Scroll, label: 'Devlog' },
   { href: '/about', icon: UserRoundSearch, label: 'Sobre' },
   { href: '/hobbies', icon: Palette, label: 'Hobbies' },
   { href: '/sandbox', icon: Box, label: 'Caixa de Pandora' },
