@@ -91,28 +91,40 @@ export function GameCard({
             </div>
           </CardItem>
 
-
-          <CardItem
-            translateZ="40"
-            className={`text-sm ${
-              completed
-                ? "text-green-500 dark:text-green-400"
-                : "text-red-500 dark:text-red-400"
-            }`}
-          >
-            {completed ? "Jogo Completo" : "Não Completo"}
-          </CardItem>
-          <CardItem
-            translateZ="40"
-            className="text-sm text-neutral-600 dark:text-neutral-300"
-          >
-            {wouldPlayAgain ? "Jogaria Novamente 😊" : "Não Jogaria Novamente 😐"}
-          </CardItem>
-          <CardItem
-            translateZ="40"
-            className="text-sm text-neutral-600 dark:text-neutral-300"
-          >
-            {played ? "Já Jogou!" : "Ainda não jogou!"}
+          {/* Tags de status do jogo */}
+          <CardItem translateZ="40">
+            <div className="flex flex-wrap gap-2 flex-col items-start">
+              {completed && (
+                <span className="text-xs bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-100 px-2 py-0.5 rounded-full">
+                  Jogo Completo
+                </span>
+              )}
+              {!completed && (
+                <span className="text-xs bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-100 px-2 py-0.5 rounded-full">
+                  Não Completo
+                </span>
+              )}
+              {wouldPlayAgain && (
+                <span className="text-xs bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100 px-2 py-0.5 rounded-full">
+                  Jogaria Novamente
+                </span>
+              )}
+              {!wouldPlayAgain && (
+                <span className="text-xs bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100 px-2 py-0.5 rounded-full">
+                  Não Jogaria Novamente
+                </span>
+              )}
+              {played && (
+                <span className="text-xs bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-100 px-2 py-0.5 rounded-full">
+                  Já Jogou
+                </span>
+              )}
+              {!played && (
+                <span className="text-xs bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-100 px-2 py-0.5 rounded-full">
+                  Ainda não jogou
+                </span>
+              )}
+            </div>
           </CardItem>
         </div>
       </CardBody>
