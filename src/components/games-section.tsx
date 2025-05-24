@@ -90,7 +90,7 @@ export function GamesSection() {
       </div>
 
       {/* Games I've played */}
-      <section className="space-y-6">
+      <section>
         {viewMode === "grid" ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-[500]">
             {games.map((game) => (
