@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Header } from '@/components/header';
+import { Footer } from '@/components/footer';
 // import { ThemeToggle } from "@/components/theme-toggle";
 
 const geistSans = Geist({
@@ -39,12 +40,15 @@ export default function RootLayout({
       enableSystem
       disableTransitionOnChange
     >
-      <div className="max-w-4xl mx-auto px-4 py-8 md:py-16">
+      <div className="max-w-4xl mx-auto px-4 py-8 md:py-16 flex flex-col min-h-screen">
       <Header />
         {/*<header className="flex justify-end mb-8">*/}
         {/*<ThemeToggle />*/}
         {/*</header>*/}
-        {children}
+        <div className="flex-grow">
+          {children}
+        </div>
+        <Footer />
       </div>
     </ThemeProvider>
     </body>

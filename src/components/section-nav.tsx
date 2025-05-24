@@ -9,10 +9,10 @@ import {
 
 const navLinks = [
   { href: '/projects', icon: Code, label: 'Projetos' },
-  { href: '/sandbox', icon: Box, label: 'Sandbox' },
   { href: '/articles', icon: Scroll, label: 'Artigos' },
   { href: '/about', icon: UserRoundSearch, label: 'Sobre' },
   { href: '/hobbies', icon: Palette, label: 'Hobbies' },
+  { href: '/sandbox', icon: Box, label: 'Caixa de Pandora' },
 ];
 
 export function SectionNav() {

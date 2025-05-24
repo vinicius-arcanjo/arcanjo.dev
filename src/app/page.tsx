@@ -2,7 +2,6 @@ import { HeroSection } from "@/components/hero-section";
 import { ProjectsSection } from "@/components/projects-section";
 import { SectionNav } from '@/components/section-nav';
 // import { TimelineSection } from "@/components/timeline-section";
-// import { Footer } from "@/components/footer";
 
 export default function Home() {
   return (
@@ -11,7 +10,6 @@ export default function Home() {
       <SectionNav/>
       <ProjectsSection />
       {/*<TimelineSection />*/}
-      {/*<Footer />*/}
     </main>
   );
 }
