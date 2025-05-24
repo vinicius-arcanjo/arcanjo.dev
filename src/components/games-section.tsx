@@ -1,4 +1,17 @@
+'use client'
+
+import { useState } from "react";
 import { GameCard, GameCardProps } from "@/components/game-card";
+import { LayoutGrid, List } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 // Sample game data
 const games: GameCardProps[] = [
@@ -53,30 +66,106 @@ const games: GameCardProps[] = [
 ];
 
 export function GamesSection() {
+  // State to track the current view mode (grid or table)
+  const [viewMode, setViewMode] = useState<"grid" | "table">("grid");
+
   // Separate games by category
   const playedGames = games.filter(game => game.category === "played");
   const wantToPlayGames = games.filter(game => game.category === "want-to-play");
 
+  // Function to render stars for table view
+  const renderRating = (rating: number) => {
+    return `${rating.toFixed(1)}/5.0`;
+  };
+
   return (
     <div className="space-y-12">
+      {/* View toggle */}
+      <div className="flex justify-end space-x-2">
+        <Button
+          variant={viewMode === "grid" ? "default" : "outline"}
+          size="sm"
+          onClick={() => setViewMode("grid")}
+        >
+          <LayoutGrid className="h-4 w-4 mr-1" />
+          Grid
+        </Button>
+        <Button
+          variant={viewMode === "table" ? "default" : "outline"}
+          size="sm"
+          onClick={() => setViewMode("table")}
+        >
+          <List className="h-4 w-4 mr-1" />
+          Tabela
+        </Button>
+      </div>
+
       {/* Games I've played */}
       <section className="space-y-6">
         <h3 className="text-xl font-semibold">Jogos que já joguei</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {playedGames.map((game) => (
-            <GameCard key={game.title} {...game} />
-          ))}
-        </div>
+
+        {viewMode === "grid" ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {playedGames.map((game) => (
+              <GameCard key={game.title} {...game} />
+            ))}
+          </div>
+        ) : (
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Título</TableHead>
+                <TableHead>Avaliação</TableHead>
+                <TableHead>Zerado</TableHead>
+                <TableHead>Jogaria novamente</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {playedGames.map((game) => (
+                <TableRow key={game.title}>
+                  <TableCell className="font-medium">{game.title}</TableCell>
+                  <TableCell>{renderRating(game.rating)}</TableCell>
+                  <TableCell>{game.completed ? "Sim" : "Não"}</TableCell>
+                  <TableCell>{game.wouldPlayAgain ? "Sim" : "Não"}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        )}
       </section>
 
       {/* Games I want to play */}
       <section className="space-y-6">
         <h3 className="text-xl font-semibold">Jogos que quero jogar</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {wantToPlayGames.map((game) => (
-            <GameCard key={game.title} {...game} />
-          ))}
-        </div>
+
+        {viewMode === "grid" ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {wantToPlayGames.map((game) => (
+              <GameCard key={game.title} {...game} />
+            ))}
+          </div>
+        ) : (
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Título</TableHead>
+                <TableHead>Avaliação</TableHead>
+                <TableHead>Zerado</TableHead>
+                <TableHead>Jogaria novamente</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {wantToPlayGames.map((game) => (
+                <TableRow key={game.title}>
+                  <TableCell className="font-medium">{game.title}</TableCell>
+                  <TableCell>{renderRating(game.rating)}</TableCell>
+                  <TableCell>{game.completed ? "Sim" : "Não"}</TableCell>
+                  <TableCell>{game.wouldPlayAgain ? "Sim" : "Não"}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        )}
       </section>
     </div>
   );
