@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { Code, Lock } from 'lucide-react';
 import { Heading } from '@/components/heading';
-import { HoverEffect } from '@/components/ui/card-hover-effect';
+import { CardHoverEffect } from '@/components/ui/card-hover-effect';
 
 export const metadata: Metadata = {
   title: 'Projetos - Vinícius Arcanjo',
@@ -25,9 +25,9 @@ export default function ProjectsPage() {
   ];
 
   return (
-    <main className="space-y-12">
-      <Heading size="4xl" font="round" className="text-center mt-10">Meus Projetos</Heading>
-      <HoverEffect items={projectItems} className="max-w-5xl mx-auto" variant="outline" />
+    <main>
+      <Heading size="8xl" font="minimal" className="text-center mt-10">Projetos</Heading>
+      <CardHoverEffect items={projectItems} className="max-w-5xl mx-auto" variant="outline" />
     </main>
   );
 }

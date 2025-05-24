@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "motion/react";
 
 import { useState } from "react";
 
-export const HoverEffect = ({
+export const CardHoverEffect = ({
   items,
   className,
   variant = "default",
@@ -79,7 +79,7 @@ export const Card = ({
         "rounded-2xl h-full w-full p-4 overflow-hidden relative z-20",
         variant === "default"
           ? "bg-black border border-transparent dark:border-white/[0.2] group-hover:border-slate-700"
-          : "bg-transparent border-2 border-slate-700 group-hover:border-slate-500",
+          : "bg-white dark:bg-zinc-900 border-2 border-slate-700 group-hover:border-slate-500",
         className
       )}
     >
