@@ -20,7 +20,7 @@ const animes: AnimeCardProps[] = [
     title: "Attack on Titan",
     japaneseTitle: "進撃の巨人 (Shingeki no Kyojin)",
     description: 'Em um mundo onde a humanidade vive dentro de cidades cercadas por enormes muralhas devido ao aparecimento de Titãs, gigantes humanoides que devoram humanos aparentemente sem motivo.',
-    imageUrl: "https://m.media-amazon.com/images/M/MV5BNzc5MTczNDQtNDFjNi00ZDU5LWFkNzItOTE1NzQzMzdhNzMxXkEyXkFqcGdeQXVyNTgyNTA4MjM@._V1_.jpg",
+    imageUrl: "https://m.media-amazon.com/images/M/MV5BZmEzN2YzOTItMDI5MS00MGU4LWI1NWQtOTg5ZThhNGQwYTEzXkEyXkFqcGdeQXVyNTA4NzY1MzY@._V1_.jpg",
     rating: 4.9,
     watched: true,
     wouldWatchAgain: true,
@@ -115,7 +115,7 @@ export function AnimeSection() {
             {animes.map((anime, i) => {
               // Create a Skeleton component for the header
               const AnimeHeader = () => (
-                <div className="w-full h-40 overflow-hidden rounded-lg">
+                <div className="w-full h-60 overflow-hidden rounded-lg">
                   <img
                     src={anime.imageUrl}
                     alt={`Image of ${anime.title}`}
