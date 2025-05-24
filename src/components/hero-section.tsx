@@ -1,5 +1,6 @@
 import { Github, Linkedin, Twitter } from 'lucide-react';
 import Image from 'next/image';
+import { Title } from '@/components/ui/title';
 
 export function HeroSection() {
   return (
@@ -16,7 +17,7 @@ export function HeroSection() {
       </div>
 
       <div className="space-y-2">
-        <h1 className="text-5xl tracking-tight">Vinicius Arcanjo</h1>
+        <Title size="5xl" font="vintage">Vinicius Arcanjo</Title>
         <p className="text-muted-foreground text-lg">
           Open Sourcerer | E2E Developer | Palestrante <br/>
           Microsoft MVP on Developer Technologies <br />

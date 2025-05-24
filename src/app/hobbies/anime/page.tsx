@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { AnimeSection } from '@/components/anime-section';
 import BentoGridThirdDemo from '@/components/test';
+import { Title } from '@/components/ui/title';
 
 export const metadata: Metadata = {
   title: 'Anime - Vinícius Arcanjo',
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
 export default function AnimePage() {
   return (
     <main className="space-y-12">
-      <h1 className="text-8xl tracking-tight text-center mt-10">Anime</h1>
+      <Title size="8xl" font="outline01" className="text-center mt-10">Anime</Title>
       <section className="space-y-6">
         <AnimeSection />
         {/*<BentoGridThirdDemo />*/}

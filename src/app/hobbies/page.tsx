@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { Gamepad2, Film, Tv, Clapperboard } from 'lucide-react';
+import { Title } from '@/components/ui/title';
 
 export const metadata: Metadata = {
   title: 'Hobbies - Vinícius Arcanjo',
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
 export default function HobbiesPage() {
   return (
     <main className="space-y-12">
-      <h1 className="text-4xl font-bold tracking-tight text-center mt-10">Meus Hobbies</h1>
+      <Title size="4xl" font="round" className="font-bold text-center mt-10">Meus Hobbies</Title>
       <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Link
           href="/hobbies/games"
