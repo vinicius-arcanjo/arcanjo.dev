@@ -5,7 +5,8 @@ type TitleProps = {
   children: React.ReactNode;
   as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl' | '6xl' | '7xl' | '8xl' | '9xl';
-  font?: 'strips' | 'clock' | 'grunge' | 'inline' | 'minimal' | 'outline01' | 'outline02' | 'regular' | 'round' | 'shadow01' | 'shadow02' | 'spur' | 'stencil' | 'vintage';
+  font?: 'system' | 'strips' | 'clock' | 'grunge' | 'inline' | 'minimal' | 'outline01' | 'outline02' | 'regular' | 'round' | 'shadow01' | 'shadow02' | 'spur' | 'stencil' | 'vintage';
+  variant?: 'default' | 'underline';
   className?: string;
 };
 
@@ -26,6 +27,7 @@ const sizeClasses = {
 };
 
 const fontClasses = {
+  system: '',  // Empty string for system font (no specific font class)
   strips: 'font-michelangelo-strips',
   clock: 'font-michelangelo-clock',
   grunge: 'font-michelangelo-grunge',
@@ -46,11 +48,29 @@ export function Heading({
   children,
   as: Component = 'h1',
   size = '2xl',
-  font = 'regular',
+  font = 'system',
+  variant = 'default',
   className
 }: TitleProps) {
   // Base classes for all titles
   const baseClasses = 'tracking-tight';
+
+  // Function to apply underline styling that starts from the second letter
+  const renderWithUnderline = (text: React.ReactNode) => {
+    if (typeof text !== 'string') return text;
+
+    if (text.length <= 1) return text;
+
+    return (
+      <>
+        {text.charAt(0)}
+        <span className="relative">
+          {text.slice(1)}
+          <span className="absolute bottom-0 left-0 w-full h-1 bg-current"></span>
+        </span>
+      </>
+    );
+  };
 
   return (
     <Component
@@ -61,7 +81,7 @@ export function Heading({
         className
       )}
     >
-      {children}
+      {variant === 'underline' ? renderWithUnderline(children) : children}
     </Component>
   );
 }
