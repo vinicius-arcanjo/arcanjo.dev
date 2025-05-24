@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { AnimeSection } from '@/components/anime-section';
+import BentoGridThirdDemo from '@/components/test';
 
 export const metadata: Metadata = {
   title: 'Anime - Vinícius Arcanjo',
@@ -12,6 +13,7 @@ export default function AnimePage() {
       <h1 className="text-4xl font-bold tracking-tight text-center mt-10">Anime</h1>
       <section className="space-y-6">
         <AnimeSection />
+        {/*<BentoGridThirdDemo />*/}
       </section>
     </main>
   );
