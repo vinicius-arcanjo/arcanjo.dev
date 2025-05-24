@@ -4,6 +4,7 @@ import { useState } from "react";
 import { AnimeCard, AnimeCardProps } from "@/components/anime-card";
 import { LayoutGrid, List } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
 import {
   Table,
   TableBody,
@@ -110,11 +111,76 @@ export function AnimeSection() {
       {/* Anime section */}
       <section>
         {viewMode === "grid" ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-[500]">
-            {animes.map((anime) => (
-              <AnimeCard key={anime.title} {...anime} />
-            ))}
-          </div>
+          <BentoGrid>
+            {animes.map((anime, i) => {
+              // Create a Skeleton component for the header
+              const AnimeHeader = () => (
+                <div className="w-full h-40 overflow-hidden rounded-lg">
+                  <img
+                    src={anime.imageUrl}
+                    alt={`Image of ${anime.title}`}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              );
+
+              // Format year range
+              const yearRange = anime.endYear
+                ? `${anime.startYear}-${anime.endYear}`
+                : `${anime.startYear}-Presente`;
+
+              return (
+                <BentoGridItem
+                  key={anime.title}
+                  title={
+                    <div>
+                      <div>{anime.title}</div>
+                      {anime.japaneseTitle && (
+                        <div className="text-xs italic text-neutral-500 dark:text-neutral-400">
+                          {anime.japaneseTitle}
+                        </div>
+                      )}
+                    </div>
+                  }
+                  description={
+                    <div>
+                      <div className="mb-2">{anime.description}</div>
+                      <div className="text-xs text-neutral-500">
+                        {yearRange} • {anime.episodes} {anime.episodes === 1 ? 'episódio' : 'episódios'} • {anime.studio}
+                      </div>
+                      <div className="text-xs text-neutral-500">
+                        Gênero: {anime.genre}
+                      </div>
+                      <div className="mt-2 flex flex-wrap gap-1">
+                        {anime.watched && (
+                          <span className="text-xs bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-100 px-2 py-0.5 rounded-full">
+                            Assistido
+                          </span>
+                        )}
+                        {anime.wouldWatchAgain && (
+                          <span className="text-xs bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100 px-2 py-0.5 rounded-full">
+                            Assistiria Novamente
+                          </span>
+                        )}
+                        {!anime.endYear && (
+                          <span className="text-xs bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-100 px-2 py-0.5 rounded-full">
+                            Em Andamento
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  }
+                  header={<AnimeHeader />}
+                  icon={
+                    <div className="flex items-center space-x-1">
+                      <span className="text-xs font-bold text-yellow-500">{anime.rating.toFixed(1)}/5.0</span>
+                    </div>
+                  }
+                  className={i === 3 || i === 0 ? "md:col-span-2" : ""}
+                />
+              );
+            })}
+          </BentoGrid>
         ) : (
           <Table>
             <TableHeader>
