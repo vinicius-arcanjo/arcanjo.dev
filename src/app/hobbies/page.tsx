@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function HobbiesPage() {
   return (
     <main className="space-y-12">
-      <Title size="4xl" font="round" className="font-bold text-center mt-10">Meus Hobbies</Title>
+      <Title size="4xl" font="round" className="text-center mt-10">Meus Hobbies</Title>
       <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Link
           href="/hobbies/games"

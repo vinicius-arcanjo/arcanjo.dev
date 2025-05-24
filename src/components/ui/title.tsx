@@ -46,7 +46,7 @@ export function Title({
   children,
   as: Component = 'h1',
   size = '2xl',
-  font = 'strips',
+  font = 'regular',
   className
 }: TitleProps) {
   // Base classes for all titles
