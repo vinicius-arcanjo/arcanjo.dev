@@ -8,6 +8,7 @@ import { useState } from "react";
 export const HoverEffect = ({
   items,
   className,
+  variant = "default",
 }: {
   items: {
     title: string;
@@ -16,13 +17,14 @@ export const HoverEffect = ({
     icon?: React.ReactNode;
   }[];
   className?: string;
+  variant?: "default" | "outline";
 }) => {
   let [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
     <div
       className={cn(
-        "grid grid-cols-1 md:grid-cols-2  lg:grid-cols-3  py-10",
+        "grid grid-cols-1 md:grid-cols-2  lg:grid-cols-2  py-10",
         className
       )}
     >
@@ -51,10 +53,10 @@ export const HoverEffect = ({
               />
             )}
           </AnimatePresence>
-          <Card>
+          <Card variant={variant}>
             {item.icon && <div className="flex justify-center mb-4">{item.icon}</div>}
-            <CardTitle>{item.title}</CardTitle>
-            <CardDescription>{item.description}</CardDescription>
+            <CardTitle variant={variant}>{item.title}</CardTitle>
+            <CardDescription variant={variant}>{item.description}</CardDescription>
           </Card>
         </a>
       ))}
@@ -65,14 +67,19 @@ export const HoverEffect = ({
 export const Card = ({
   className,
   children,
+  variant = "default",
 }: {
   className?: string;
   children: React.ReactNode;
+  variant?: "default" | "outline";
 }) => {
   return (
     <div
       className={cn(
-        "rounded-2xl h-full w-full p-4 overflow-hidden bg-black border border-transparent dark:border-white/[0.2] group-hover:border-slate-700 relative z-20",
+        "rounded-2xl h-full w-full p-4 overflow-hidden relative z-20",
+        variant === "default"
+          ? "bg-black border border-transparent dark:border-white/[0.2] group-hover:border-slate-700"
+          : "bg-transparent border-2 border-slate-700 group-hover:border-slate-500",
         className
       )}
     >
@@ -85,12 +92,18 @@ export const Card = ({
 export const CardTitle = ({
   className,
   children,
+  variant = "default",
 }: {
   className?: string;
   children: React.ReactNode;
+  variant?: "default" | "outline";
 }) => {
   return (
-    <h4 className={cn("text-zinc-100 font-bold tracking-wide mt-4", className)}>
+    <h4 className={cn(
+      "font-bold tracking-wide mt-4",
+      variant === "default" ? "text-zinc-100" : "text-zinc-800 dark:text-zinc-200",
+      className
+    )}>
       {children}
     </h4>
   );
@@ -98,14 +111,17 @@ export const CardTitle = ({
 export const CardDescription = ({
   className,
   children,
+  variant = "default",
 }: {
   className?: string;
   children: React.ReactNode;
+  variant?: "default" | "outline";
 }) => {
   return (
     <p
       className={cn(
-        "mt-8 text-zinc-400 tracking-wide leading-relaxed text-sm",
+        "mt-8 tracking-wide leading-relaxed text-sm",
+        variant === "default" ? "text-zinc-400" : "text-zinc-600 dark:text-zinc-400",
         className
       )}
     >

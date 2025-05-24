@@ -27,7 +27,7 @@ export default function ProjectsPage() {
   return (
     <main className="space-y-12">
       <Heading size="4xl" font="round" className="text-center mt-10">Meus Projetos</Heading>
-      <HoverEffect items={projectItems} className="max-w-5xl mx-auto" />
+      <HoverEffect items={projectItems} className="max-w-5xl mx-auto" variant="outline" />
     </main>
   );
 }
