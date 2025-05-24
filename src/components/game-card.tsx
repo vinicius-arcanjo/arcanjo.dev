@@ -8,7 +8,7 @@ export interface GameCardProps {
   rating: number; // 0.0 to 5.0
   completed: boolean;
   wouldPlayAgain: boolean;
-  category: 'played' | 'want-to-play';
+  played: boolean
 }
 
 export function GameCard({
@@ -17,7 +17,7 @@ export function GameCard({
   rating,
   completed,
   wouldPlayAgain,
-  category
+  played
 }: GameCardProps) {
   // Generate stars based on rating
   const renderStars = () => {
@@ -92,9 +92,9 @@ export function GameCard({
 
       <CardFooter>
         <span className={`text-xs px-2 py-1 rounded-full ${
-          category === 'played' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'
+          played ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'
         }`}>
-          {category === 'played' ? 'Já joguei' : 'Quero jogar'}
+          {played ? 'Já joguei' : 'Quero jogar'}
         </span>
       </CardFooter>
     </Card>

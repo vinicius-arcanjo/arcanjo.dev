@@ -21,7 +21,7 @@ const games: GameCardProps[] = [
     rating: 5.0,
     completed: true,
     wouldPlayAgain: true,
-    category: "played",
+    played: true
   },
   {
     title: "Elden Ring",
@@ -29,7 +29,7 @@ const games: GameCardProps[] = [
     rating: 4.5,
     completed: false,
     wouldPlayAgain: true,
-    category: "played",
+    played: true
   },
   {
     title: "Hollow Knight",
@@ -37,7 +37,7 @@ const games: GameCardProps[] = [
     rating: 4.8,
     completed: true,
     wouldPlayAgain: true,
-    category: "played",
+    played: true
   },
   {
     title: "Cyberpunk 2077",
@@ -45,7 +45,7 @@ const games: GameCardProps[] = [
     rating: 3.5,
     completed: false,
     wouldPlayAgain: false,
-    category: "played",
+    played: true
   },
   {
     title: "Starfield",
@@ -53,7 +53,7 @@ const games: GameCardProps[] = [
     rating: 0.0, // Not rated yet
     completed: false,
     wouldPlayAgain: false,
-    category: "want-to-play",
+    played: false
   },
   {
     title: "Final Fantasy VII Rebirth",
@@ -61,7 +61,7 @@ const games: GameCardProps[] = [
     rating: 0.0, // Not rated yet
     completed: false,
     wouldPlayAgain: false,
-    category: "want-to-play",
+    played: false
   },
 ];
 
@@ -70,8 +70,8 @@ export function GamesSection() {
   const [viewMode, setViewMode] = useState<"grid" | "table">("grid");
 
   // Separate games by category
-  const playedGames = games.filter(game => game.category === "played");
-  const wantToPlayGames = games.filter(game => game.category === "want-to-play");
+  // const playedGames = games.filter(game => game.category === "played");
+  // const wantToPlayGames = games.filter(game => game.category === "want-to-play");
 
   // Function to render stars for table view
   const renderRating = (rating: number) => {
@@ -106,7 +106,7 @@ export function GamesSection() {
 
         {viewMode === "grid" ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {playedGames.map((game) => (
+            {games.map((game) => (
               <GameCard key={game.title} {...game} />
             ))}
           </div>
@@ -117,49 +117,17 @@ export function GamesSection() {
                 <TableHead>Título</TableHead>
                 <TableHead>Avaliação</TableHead>
                 <TableHead>Zerado</TableHead>
+                <TableHead>Já Joguei</TableHead>
                 <TableHead>Jogaria novamente</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {playedGames.map((game) => (
+              {games.map((game) => (
                 <TableRow key={game.title}>
                   <TableCell className="font-medium">{game.title}</TableCell>
                   <TableCell>{renderRating(game.rating)}</TableCell>
                   <TableCell>{game.completed ? "Sim" : "Não"}</TableCell>
-                  <TableCell>{game.wouldPlayAgain ? "Sim" : "Não"}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        )}
-      </section>
-
-      {/* Games I want to play */}
-      <section className="space-y-6">
-        <h3 className="text-xl font-semibold">Jogos que quero jogar</h3>
-
-        {viewMode === "grid" ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {wantToPlayGames.map((game) => (
-              <GameCard key={game.title} {...game} />
-            ))}
-          </div>
-        ) : (
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Título</TableHead>
-                <TableHead>Avaliação</TableHead>
-                <TableHead>Zerado</TableHead>
-                <TableHead>Jogaria novamente</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {wantToPlayGames.map((game) => (
-                <TableRow key={game.title}>
-                  <TableCell className="font-medium">{game.title}</TableCell>
-                  <TableCell>{renderRating(game.rating)}</TableCell>
-                  <TableCell>{game.completed ? "Sim" : "Não"}</TableCell>
+                  <TableCell>{game.played ? "Sim" : "Não"}</TableCell>
                   <TableCell>{game.wouldPlayAgain ? "Sim" : "Não"}</TableCell>
                 </TableRow>
               ))}
