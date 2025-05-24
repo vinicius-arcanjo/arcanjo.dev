@@ -1,9 +1,14 @@
-// components/projects-section.tsx
+'use client'
+
 import { ProjectCard } from "@/components/project-card";
 import { Heading } from '@/components/heading';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { useState } from "react";
 
 export function ProjectsSection() {
-  const projects = [
+  const [activeTab, setActiveTab] = useState("opensource");
+
+  const openSourceProjects = [
     {
       name: "meu-portfólio",
       description: "Meu site pessoal com Next.js, Tailwind e shadcn/ui.",
@@ -18,15 +23,34 @@ export function ProjectsSection() {
     },
   ];
 
+  const privateProjects: any[] = [
+    // Will be populated later
+  ];
+
   return (
     <section id="projects" className="space-y-6">
-      {/*<h2 className="text-2xl font-bold">Projetos</h2>*/}
-      <Heading as='h2' size='2xl' className='font-bold' variant='underline'>Projetos</Heading>
-      <div className="grid md:grid-cols-2 gap-4">
-        {projects.map((project) => (
-          <ProjectCard key={project.url} {...project} />
-        ))}
-      </div>
+      <Heading as='h2' size='xl' className='font-bold uppercase' variant='underline'>Projetos</Heading>
+
+      <Tabs defaultValue="opensource" value={activeTab} onValueChange={setActiveTab} className="w-full">
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="opensource">Open Source</TabsTrigger>
+          <TabsTrigger value="private">Privados</TabsTrigger>
+        </TabsList>
+        <TabsContent value="opensource" className="mt-6">
+          <div className="grid md:grid-cols-2 gap-4">
+            {openSourceProjects.map((project) => (
+              <ProjectCard key={project.url} {...project} />
+            ))}
+          </div>
+        </TabsContent>
+        <TabsContent value="private" className="mt-6">
+          <div className="grid md:grid-cols-2 gap-4">
+            {privateProjects.map((project) => (
+              <ProjectCard key={project.url} {...project} />
+            ))}
+          </div>
+        </TabsContent>
+      </Tabs>
     </section>
   );
 }
