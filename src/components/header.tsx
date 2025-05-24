@@ -1,8 +1,8 @@
 'use client';
 
-import Link from "next/link";
-import Image from "next/image";
-import { useState } from "react";
+import Link from 'next/link';
+import Image from 'next/image';
+import { useState } from 'react';
 import {
   Code,
   MicVocal,
@@ -10,8 +10,9 @@ import {
   UserRoundSearch,
   Menu,
   X,
-} from "lucide-react";
+} from 'lucide-react';
 import { LanguageSwitcher } from '@/components/language-switcher';
+import { ThemeToggle } from '@/components/theme-toggle';
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -61,7 +62,11 @@ export function Header() {
           {/*    Sobre*/}
           {/*  </Link>*/}
           {/*</nav>*/}
-          <LanguageSwitcher />
+          <div className="flex items-center">
+            <ThemeToggle />
+            <span className="mx-2 text-gray-500">|</span>
+            <LanguageSwitcher />
+          </div>
         </div>
       </header>
 
