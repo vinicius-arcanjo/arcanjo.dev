@@ -6,7 +6,7 @@ import { SectionNav } from '@/components/section-nav';
 
 export default function Home() {
   return (
-    <main className="max-w-4xl mx-auto px-4 py-12 space-y-24">
+    <main className="max-w-4xl mx-auto px-4 py-12 space-y-16">
       <HeroSection />
       <SectionNav/>
       <ProjectsSection />
