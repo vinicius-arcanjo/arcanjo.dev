@@ -1,30 +1,38 @@
 'use client'
 
-import { ProjectCard } from "@/components/project-card";
+import { ProjectCard, ProjectCardProps } from "@/components/project-card";
 import { Heading } from '@/components/heading';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useI18n } from '@/locales/client';
+import { createGitHubService } from "@/lib/services/github-service";
 
 export function ProjectsSection() {
   const t = useI18n();
   const [activeTab, setActiveTab] = useState("opensource");
+  const [openSourceProjects, setOpenSourceProjects] = useState<ProjectCardProps[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const openSourceProjects = [
-    {
-      name: t('projectsSection.projects.portfolio.name'),
-      description: t('projectsSection.projects.portfolio.description'),
-      url: "https://github.com/seuusuario/meu-portfolio",
-      topics: ["nextjs", "tailwind", "typescript"],
-    },
-    {
-      name: t('projectsSection.projects.githubScraper.name'),
-      description: t('projectsSection.projects.githubScraper.description'),
-      url: "https://github.com/seuusuario/github-scraper",
-      topics: ["crawler", "github-api"],
-    },
-  ];
+  useEffect(() => {
+    async function fetchProjects() {
+      try {
+        setIsLoading(true);
+        const githubService = createGitHubService('vinicius-arcanjo');
+        const fetchedProjects = await githubService.getProjects();
+        setOpenSourceProjects(fetchedProjects);
+        setError(null);
+      } catch (err) {
+        console.error("Failed to fetch GitHub projects:", err);
+        setError("Não foi possível carregar os projetos do GitHub");
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    fetchProjects();
+  }, []);
 
   const privateProjects: any[] = [
     // Will be populated later
@@ -40,11 +48,32 @@ export function ProjectsSection() {
           <TabsTrigger value="private">{t('projectsSection.tabs.private')}</TabsTrigger>
         </TabsList>
         <TabsContent value="opensource" className="mt-6">
-          <div className="grid md:grid-cols-2 gap-4">
-            {openSourceProjects.map((project) => (
-              <ProjectCard key={project.url} {...project} />
-            ))}
-          </div>
+          {isLoading && (
+            <div className="text-center py-10">
+              <p>Carregando projetos...</p>
+            </div>
+          )}
+
+          {error && (
+            <div className="text-center py-10 text-red-500">
+              <p>{error}</p>
+            </div>
+          )}
+
+          {!isLoading && !error && openSourceProjects.length === 0 && (
+            <div className="text-center py-10">
+              <p>Nenhum projeto encontrado.</p>
+            </div>
+          )}
+
+          {!isLoading && !error && openSourceProjects.length > 0 && (
+            <div className="grid md:grid-cols-2 gap-4">
+              {openSourceProjects.map((project) => (
+                <ProjectCard key={project.url} {...project} />
+              ))}
+            </div>
+          )}
+
           <div className="mt-4 flex justify-center">
             <Link href="/projects/opensource" className="text-primary hover:underline">
               {t('projectsSection.viewAll.openSource')}
