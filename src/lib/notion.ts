@@ -1,6 +1,6 @@
 import { Client } from '@notionhq/client';
 import { unstable_cache } from 'next/cache';
-import { DevlogEntry } from '@/types/notion';
+import { DevlogEntry, Game } from '@/types/notion';
 
 // Initialize the Notion client
 // Note: In a production environment, this should be stored in environment variables
@@ -8,9 +8,10 @@ const notion = new Client({
   auth: process.env.NOTION_API_KEY,
 });
 
-// The ID of the database containing devlog entries
-// This should also be stored in environment variables
-const databaseId = process.env.NOTION_DEVLOG_DATABASE_ID;
+// The IDs of the databases
+// These should be stored in environment variables
+const devlogDatabaseId = process.env.NOTION_DEVLOG_DATABASE_ID;
+const gamesDatabaseId = process.env.NOTION_GAMES_DATABASE_ID;
 
 /**
  * Fetches all blocks for a specific page with caching
@@ -35,7 +36,7 @@ const getPageBlocksWithCache = unstable_cache(
       for (const block of blocks.results) {
         const blockType = block.type;
 
-        // Handle list items specially to group them
+        // Handle list items especially to group them
         if (blockType === 'bulleted_list_item' || blockType === 'numbered_list_item') {
           const listType = blockType === 'bulleted_list_item' ? 'ul' : 'ol';
 
@@ -104,12 +105,10 @@ function processBlock(block: any, isListItem = false): string {
     case 'heading_3':
       return `<h3 class="text-xl font-bold mt-4 mb-2">${getRichTextContent(blockContent.rich_text)}</h3>`;
     case 'bulleted_list_item':
-      // If it's being processed as part of a list, just return the li element
       return isListItem
         ? `<li class="my-1">${getRichTextContent(blockContent.rich_text)}</li>`
         : `<ul class="list-disc pl-6 my-4"><li class="my-1">${getRichTextContent(blockContent.rich_text)}</li></ul>`;
     case 'numbered_list_item':
-      // If it's being processed as part of a list, just return the li element
       return isListItem
         ? `<li class="my-1">${getRichTextContent(blockContent.rich_text)}</li>`
         : `<ol class="list-decimal pl-6 my-4"><li class="my-1">${getRichTextContent(blockContent.rich_text)}</li></ol>`;
@@ -205,14 +204,14 @@ export async function getDevlogEntries(): Promise<DevlogEntry[]> {
 // Create a cached version of the fetch function
 const fetchDevlogEntriesWithCache = unstable_cache(
   async (): Promise<DevlogEntry[]> => {
-    if (!databaseId) {
-      console.error('Notion database ID is not defined');
+    if (!devlogDatabaseId) {
+      console.error('Notion devlog database ID is not defined');
       return [];
     }
 
     try {
       const response = await notion.databases.query({
-        database_id: databaseId,
+        database_id: devlogDatabaseId,
         filter: {
           property: 'Status',
           select: {
@@ -267,14 +266,14 @@ export async function getDevlogEntryBySlug(slug: string): Promise<DevlogEntry | 
 // Create a cached version of the fetch function for individual entries
 const fetchDevlogEntryBySlugWithCache = unstable_cache(
   async (slug: string): Promise<DevlogEntry | undefined> => {
-    if (!databaseId) {
-      console.error('Notion database ID is not defined');
+    if (!devlogDatabaseId) {
+      console.error('Notion devlog database ID is not defined');
       return undefined;
     }
 
     try {
       const response = await notion.databases.query({
-        database_id: databaseId,
+        database_id: devlogDatabaseId,
         filter: {
           and: [
             {
@@ -319,5 +318,136 @@ const fetchDevlogEntryBySlugWithCache = unstable_cache(
   {
     revalidate: 3600, // Cache for 1 hour (3600 seconds)
     tags: ['devlog-entries'] // Tag for manual revalidation
+  }
+);
+
+/**
+ * Fetches all games from Notion with caching
+ */
+export async function getGames(): Promise<Game[]> {
+  return fetchGamesWithCache();
+}
+
+// Create a cached version of the fetch function for games
+const fetchGamesWithCache = unstable_cache(
+  async (): Promise<Game[]> => {
+    if (!gamesDatabaseId) {
+      console.error('Notion games database ID is not defined');
+      return [];
+    }
+
+    try {
+      const response = await notion.databases.query({
+        database_id: gamesDatabaseId,
+        filter: {
+          property: 'Status',
+          select: {
+            equals: 'Published'
+          }
+        },
+        sorts: [
+          {
+            property: 'ReleaseDate',
+            direction: 'descending',
+          },
+        ],
+      });
+
+      const games = [];
+
+      for (const page of response.results) {
+        const properties = page.properties;
+        const pageContent = await getPageBlocks(page.id);
+
+        games.push({
+          id: page.id,
+          title: properties.Title?.title?.[0]?.plain_text || 'Untitled',
+          releaseDate: properties.ReleaseDate?.date?.start || new Date().toISOString().split('T')[0],
+          description: properties.Description?.rich_text?.[0]?.plain_text || '',
+          content: pageContent,
+          genres: properties.Genres?.multi_select?.map((genre: any) => genre.name) || [],
+          platforms: properties.Platforms?.multi_select?.map((platform: any) => platform.name) || [],
+          coverImage: properties.CoverImage?.files?.[0]?.file?.url || properties.CoverImage?.files?.[0]?.external?.url || '',
+          slug: properties.Slug?.rich_text?.[0]?.plain_text || page.id,
+        });
+      }
+
+      return games;
+    } catch (error) {
+      console.error('Error fetching games from Notion:', error);
+      return [];
+    }
+  },
+  ['games'], // Cache key
+  {
+    revalidate: 3600, // Cache for 1 hour (3600 seconds)
+    tags: ['games'] // Tag for manual revalidation
+  }
+);
+
+/**
+ * Fetches a specific game by slug with caching
+ */
+export async function getGameBySlug(slug: string): Promise<Game | undefined> {
+  return fetchGameBySlugWithCache(slug);
+}
+
+// Create a cached version of the fetch function for individual games
+const fetchGameBySlugWithCache = unstable_cache(
+  async (slug: string): Promise<Game | undefined> => {
+    if (!gamesDatabaseId) {
+      console.error('Notion games database ID is not defined');
+      return undefined;
+    }
+
+    try {
+      const response = await notion.databases.query({
+        database_id: gamesDatabaseId,
+        filter: {
+          and: [
+            {
+              property: 'Slug',
+              rich_text: {
+                equals: slug,
+              },
+            },
+            {
+              property: 'Status',
+              select: {
+                equals: 'Published'
+              }
+            }
+          ]
+        },
+      });
+
+      if (response.results.length === 0) {
+        return undefined;
+      }
+
+      const page = response.results[0];
+      const properties = page.properties;
+      const pageContent = await getPageBlocks(page.id);
+
+      return {
+        id: page.id,
+        title: properties.Title?.title?.[0]?.plain_text || 'Untitled',
+        releaseDate: properties.ReleaseDate?.date?.start || new Date().toISOString().split('T')[0],
+        description: properties.Description?.rich_text?.[0]?.plain_text || '',
+        content: pageContent,
+        genres: properties.Genres?.multi_select?.map((genre: any) => genre.name) || [],
+        platforms: properties.Platforms?.multi_select?.map((platform: any) => platform.name) || [],
+        coverImage: properties.CoverImage?.files?.[0]?.file?.url || properties.CoverImage?.files?.[0]?.external?.url || '',
+        slug: properties.Slug?.rich_text?.[0]?.plain_text || page.id,
+      };
+    } catch (error) {
+      console.error('Error fetching game from Notion:', error);
+      return undefined;
+    }
+  },
+  ['game-by-slug'], // Cache key prefix
+  {
+    revalidate: 3600, // Cache for 1 hour (3600 seconds)
+    tags: ['games'] // Tag for manual revalidation
   }
 );
