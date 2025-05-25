@@ -1,22 +1,22 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import { Poppins } from 'next/font/google';
-import './globals.css';
+import '../../styles/globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { I18nProviderClient } from '@/locales/client';
 
-const styreneB = localFont({
-  src: '../../public/fonts/styrene-b-regular.woff',
-  variable: '--font-styrene-b',
-  display: 'swap',
-});
-
 const poppins = Poppins({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
   variable: '--font-poppins',
+  display: 'swap',
+});
+
+const styreneB = localFont({
+  src: '../../../public/fonts/styrene-b-regular.woff',
+  variable: '--font-styrene-b',
   display: 'swap',
 });
 
