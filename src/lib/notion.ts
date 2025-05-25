@@ -1,5 +1,6 @@
 import { Client } from '@notionhq/client';
 import { DevlogEntry } from '@/app/devlog/data';
+import { unstable_cache } from 'next/cache';
 
 // Initialize the Notion client
 // Note: In a production environment, this should be stored in environment variables
@@ -12,63 +13,75 @@ const notion = new Client({
 const databaseId = process.env.NOTION_DEVLOG_DATABASE_ID;
 
 /**
- * Fetches all blocks for a specific page
+ * Fetches all blocks for a specific page with caching
  */
 async function getPageBlocks(pageId: string): Promise<string> {
-  try {
-    const blocks = await notion.blocks.children.list({
-      block_id: pageId,
-    });
+  return getPageBlocksWithCache(pageId);
+}
 
-    // Process blocks to create HTML content
-    let content = '';
-    let currentListType = null;
-    let isListOpen = false;
+// Create a cached version of the fetch function for page blocks
+const getPageBlocksWithCache = unstable_cache(
+  async (pageId: string): Promise<string> => {
+    try {
+      const blocks = await notion.blocks.children.list({
+        block_id: pageId,
+      });
 
-    for (const block of blocks.results) {
-      const blockType = block.type;
+      // Process blocks to create HTML content
+      let content = '';
+      let currentListType = null;
+      let isListOpen = false;
 
-      // Handle list items specially to group them
-      if (blockType === 'bulleted_list_item' || blockType === 'numbered_list_item') {
-        const listType = blockType === 'bulleted_list_item' ? 'ul' : 'ol';
+      for (const block of blocks.results) {
+        const blockType = block.type;
 
-        // If we're not in a list or in a different type of list, close the previous list and start a new one
-        if (!isListOpen || currentListType !== listType) {
+        // Handle list items specially to group them
+        if (blockType === 'bulleted_list_item' || blockType === 'numbered_list_item') {
+          const listType = blockType === 'bulleted_list_item' ? 'ul' : 'ol';
+
+          // If we're not in a list or in a different type of list, close the previous list and start a new one
+          if (!isListOpen || currentListType !== listType) {
+            if (isListOpen) {
+              content += `</${currentListType}>`;
+            }
+            const listClass = listType === 'ul' ? 'list-disc pl-6 my-4' : 'list-decimal pl-6 my-4';
+            content += `<${listType} class="${listClass}">`;
+            currentListType = listType;
+            isListOpen = true;
+          }
+
+          // Add the list item
+          content += processBlock(block, true);
+        } else {
+          // If we're leaving a list, close it
           if (isListOpen) {
             content += `</${currentListType}>`;
+            isListOpen = false;
+            currentListType = null;
           }
-          const listClass = listType === 'ul' ? 'list-disc pl-6 my-4' : 'list-decimal pl-6 my-4';
-          content += `<${listType} class="${listClass}">`;
-          currentListType = listType;
-          isListOpen = true;
-        }
 
-        // Add the list item
-        content += processBlock(block, true);
-      } else {
-        // If we're leaving a list, close it
-        if (isListOpen) {
-          content += `</${currentListType}>`;
-          isListOpen = false;
-          currentListType = null;
+          // Process the non-list block
+          content += processBlock(block);
         }
-
-        // Process the non-list block
-        content += processBlock(block);
       }
-    }
 
-    // Close any open list at the end
-    if (isListOpen) {
-      content += `</${currentListType}>`;
-    }
+      // Close any open list at the end
+      if (isListOpen) {
+        content += `</${currentListType}>`;
+      }
 
-    return content;
-  } catch (error) {
-    console.error('Error fetching page blocks from Notion:', error);
-    return '';
+      return content;
+    } catch (error) {
+      console.error('Error fetching page blocks from Notion:', error);
+      return '';
+    }
+  },
+  ['page-blocks'], // Cache key prefix
+  {
+    revalidate: 3600, // Cache for 1 hour (3600 seconds)
+    tags: ['devlog-entries'] // Tag for manual revalidation
   }
-}
+);
 
 /**
  * Processes a block and returns HTML content
@@ -183,38 +196,112 @@ function getRichTextContent(richText: any[]): string {
 }
 
 /**
- * Fetches all devlog entries from Notion
+ * Fetches all devlog entries from Notion with caching
  */
 export async function getDevlogEntries(): Promise<DevlogEntry[]> {
-  if (!databaseId) {
-    console.error('Notion database ID is not defined');
-    return [];
-  }
+  return fetchDevlogEntriesWithCache();
+}
 
-  try {
-    const response = await notion.databases.query({
-      database_id: databaseId,
-      filter: {
-        property: 'Status',
-        select: {
-          equals: 'Published'
-        }
-      },
-      sorts: [
-        {
-          property: 'Date',
-          direction: 'descending',
+// Create a cached version of the fetch function
+const fetchDevlogEntriesWithCache = unstable_cache(
+  async (): Promise<DevlogEntry[]> => {
+    if (!databaseId) {
+      console.error('Notion database ID is not defined');
+      return [];
+    }
+
+    try {
+      const response = await notion.databases.query({
+        database_id: databaseId,
+        filter: {
+          property: 'Status',
+          select: {
+            equals: 'Published'
+          }
         },
-      ],
-    });
+        sorts: [
+          {
+            property: 'Date',
+            direction: 'descending',
+          },
+        ],
+      });
 
-    const entries = [];
+      const entries = [];
 
-    for (const page of response.results) {
+      for (const page of response.results) {
+        const properties = page.properties;
+        const pageContent = await getPageBlocks(page.id);
+
+        entries.push({
+          id: page.id,
+          title: properties.Title?.title?.[0]?.plain_text || 'Untitled',
+          date: properties.Date?.date?.start || new Date().toISOString().split('T')[0],
+          summary: properties.Summary?.rich_text?.[0]?.plain_text || '',
+          content: pageContent,
+          tags: properties.Tags?.multi_select?.map((tag: any) => tag.name) || [],
+          slug: properties.Slug?.rich_text?.[0]?.plain_text || page.id,
+        });
+      }
+
+      return entries;
+    } catch (error) {
+      console.error('Error fetching devlog entries from Notion:', error);
+      return [];
+    }
+  },
+  ['devlog-entries'], // Cache key
+  {
+    revalidate: 3600, // Cache for 1 hour (3600 seconds)
+    tags: ['devlog-entries'] // Tag for manual revalidation
+  }
+);
+
+/**
+ * Fetches a specific devlog entry by slug with caching
+ */
+export async function getDevlogEntryBySlug(slug: string): Promise<DevlogEntry | undefined> {
+  return fetchDevlogEntryBySlugWithCache(slug);
+}
+
+// Create a cached version of the fetch function for individual entries
+const fetchDevlogEntryBySlugWithCache = unstable_cache(
+  async (slug: string): Promise<DevlogEntry | undefined> => {
+    if (!databaseId) {
+      console.error('Notion database ID is not defined');
+      return undefined;
+    }
+
+    try {
+      const response = await notion.databases.query({
+        database_id: databaseId,
+        filter: {
+          and: [
+            {
+              property: 'Slug',
+              rich_text: {
+                equals: slug,
+              },
+            },
+            {
+              property: 'Status',
+              select: {
+                equals: 'Published'
+              }
+            }
+          ]
+        },
+      });
+
+      if (response.results.length === 0) {
+        return undefined;
+      }
+
+      const page = response.results[0];
       const properties = page.properties;
       const pageContent = await getPageBlocks(page.id);
 
-      entries.push({
+      return {
         id: page.id,
         title: properties.Title?.title?.[0]?.plain_text || 'Untitled',
         date: properties.Date?.date?.start || new Date().toISOString().split('T')[0],
@@ -222,65 +309,15 @@ export async function getDevlogEntries(): Promise<DevlogEntry[]> {
         content: pageContent,
         tags: properties.Tags?.multi_select?.map((tag: any) => tag.name) || [],
         slug: properties.Slug?.rich_text?.[0]?.plain_text || page.id,
-      });
-    }
-
-    return entries;
-  } catch (error) {
-    console.error('Error fetching devlog entries from Notion:', error);
-    return [];
-  }
-}
-
-/**
- * Fetches a specific devlog entry by slug
- */
-export async function getDevlogEntryBySlug(slug: string): Promise<DevlogEntry | undefined> {
-  if (!databaseId) {
-    console.error('Notion database ID is not defined');
-    return undefined;
-  }
-
-  try {
-    const response = await notion.databases.query({
-      database_id: databaseId,
-      filter: {
-        and: [
-          {
-            property: 'Slug',
-            rich_text: {
-              equals: slug,
-            },
-          },
-          {
-            property: 'Status',
-            select: {
-              equals: 'Published'
-            }
-          }
-        ]
-      },
-    });
-
-    if (response.results.length === 0) {
+      };
+    } catch (error) {
+      console.error('Error fetching devlog entry from Notion:', error);
       return undefined;
     }
-
-    const page = response.results[0];
-    const properties = page.properties;
-    const pageContent = await getPageBlocks(page.id);
-
-    return {
-      id: page.id,
-      title: properties.Title?.title?.[0]?.plain_text || 'Untitled',
-      date: properties.Date?.date?.start || new Date().toISOString().split('T')[0],
-      summary: properties.Summary?.rich_text?.[0]?.plain_text || '',
-      content: pageContent,
-      tags: properties.Tags?.multi_select?.map((tag: any) => tag.name) || [],
-      slug: properties.Slug?.rich_text?.[0]?.plain_text || page.id,
-    };
-  } catch (error) {
-    console.error('Error fetching devlog entry from Notion:', error);
-    return undefined;
+  },
+  ['devlog-entry-by-slug'], // Cache key prefix
+  {
+    revalidate: 3600, // Cache for 1 hour (3600 seconds)
+    tags: ['devlog-entries'] // Tag for manual revalidation
   }
-}
+);
