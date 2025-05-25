@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { GamesSection } from '@/components/games-section';
 import { Heading } from '@/components/heading';
+import { getGameCardProps } from '@/lib/notion';
 
 
 export const metadata: Metadata = {
@@ -8,12 +9,15 @@ export const metadata: Metadata = {
   description: 'Meus jogos favoritos e avaliações.',
 };
 
-export default function GamesPage() {
+export default async function GamesPage() {
+  // Fetch games from Notion
+  const games = await getGameCardProps();
+
   return (
     <main className="space-y-12">
       <Heading size="4xl" font="grunge" className="font-bold text-center mt-10">Games</Heading>
       <section className="space-y-6">
-        <GamesSection />
+        <GamesSection games={games} />
       </section>
     </main>
   );
