@@ -3,7 +3,20 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { Heading } from '@/components/heading';
 import { ArrowLeft, Calendar, Tag } from 'lucide-react';
-import { getDevlogEntryBySlug } from '@/lib/notion';
+import { getDevlogEntries, getDevlogEntryBySlug } from '@/lib/notion';
+
+// Force static generation for this page
+export const dynamic = 'force-static';
+export const revalidate = false; // Never revalidate, use build time data
+
+// Generate static params for all devlog entries
+export async function generateStaticParams() {
+  const entries = await getDevlogEntries();
+
+  return entries.map((entry) => ({
+    slug: entry.slug,
+  }));
+}
 
 // Generate metadata for the page dynamically based on the slug
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {

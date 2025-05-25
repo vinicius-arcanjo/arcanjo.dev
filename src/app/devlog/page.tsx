@@ -3,6 +3,10 @@ import { Heading } from '@/components/heading';
 import { Scroll, Calendar, Tag } from 'lucide-react';
 import { getDevlogEntries } from '@/lib/notion';
 
+// Force static generation for this page
+export const dynamic = 'force-static';
+export const revalidate = false; // Never revalidate, use build time data
+
 export const metadata: Metadata = {
   title: 'Devlog - Vinícius Arcanjo',
   description: 'Meu diário de desenvolvimento e aprendizados em programação.',
