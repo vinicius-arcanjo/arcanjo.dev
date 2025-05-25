@@ -12,31 +12,43 @@ export function ProjectsSection() {
   const t = useI18n();
   const [activeTab, setActiveTab] = useState("opensource");
   const [openSourceProjects, setOpenSourceProjects] = useState<ProjectCardProps[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [privateProjects, setPrivateProjects] = useState<ProjectCardProps[]>([
+    {
+      name: "E-commerce Platform",
+      description: "Plataforma de e-commerce completa com gestão de produtos, pedidos e clientes.",
+      url: "#",
+      topics: ["react", "node.js", "mongodb"],
+    },
+    {
+      name: "CRM System",
+      description: "Sistema de gestão de relacionamento com clientes para empresa de tecnologia.",
+      url: "#",
+      topics: ["angular", "express", "postgresql"],
+    },
+  ]);
+  const [isLoadingOpenSource, setIsLoadingOpenSource] = useState(true);
+  const [errorOpenSource, setErrorOpenSource] = useState<string | null>(null);
+  const [isLoadingPrivate, setIsLoadingPrivate] = useState(false); // No need to load private projects initially
 
   useEffect(() => {
     async function fetchProjects() {
       try {
-        setIsLoading(true);
+        setIsLoadingOpenSource(true);
         const githubService = createGitHubService('vinicius-arcanjo');
         const fetchedProjects = await githubService.getProjects();
         setOpenSourceProjects(fetchedProjects);
-        setError(null);
+        setErrorOpenSource(null);
       } catch (err) {
         console.error("Failed to fetch GitHub projects:", err);
-        setError("Não foi possível carregar os projetos do GitHub");
+        setErrorOpenSource("Não foi possível carregar os projetos do GitHub");
       } finally {
-        setIsLoading(false);
+        setIsLoadingOpenSource(false);
       }
     }
 
-    fetchProjects();
+    fetchProjects().then(r => r);
   }, []);
 
-  const privateProjects: any[] = [
-    // Will be populated later
-  ];
 
   return (
     <section id="projects" className="space-y-6">
@@ -48,25 +60,25 @@ export function ProjectsSection() {
           <TabsTrigger value="private">{t('projectsSection.tabs.private')}</TabsTrigger>
         </TabsList>
         <TabsContent value="opensource" className="mt-6">
-          {isLoading && (
+          {isLoadingOpenSource && (
             <div className="text-center py-10">
               <p>Carregando projetos...</p>
             </div>
           )}
 
-          {error && (
+          {errorOpenSource && (
             <div className="text-center py-10 text-red-500">
-              <p>{error}</p>
+              <p>{errorOpenSource}</p>
             </div>
           )}
 
-          {!isLoading && !error && openSourceProjects.length === 0 && (
+          {!isLoadingOpenSource && !errorOpenSource && openSourceProjects.length === 0 && (
             <div className="text-center py-10">
               <p>Nenhum projeto encontrado.</p>
             </div>
           )}
 
-          {!isLoading && !error && openSourceProjects.length > 0 && (
+          {!isLoadingOpenSource && !errorOpenSource && openSourceProjects.length > 0 && (
             <div className="grid md:grid-cols-2 gap-4">
               {openSourceProjects.map((project) => (
                 <ProjectCard key={project.url} {...project} />
@@ -81,11 +93,26 @@ export function ProjectsSection() {
           </div>
         </TabsContent>
         <TabsContent value="private" className="mt-6">
-          <div className="grid md:grid-cols-2 gap-4">
-            {privateProjects.map((project) => (
-              <ProjectCard key={project.url} {...project} />
-            ))}
-          </div>
+          {isLoadingPrivate && (
+            <div className="text-center py-10">
+              <p>Carregando projetos...</p>
+            </div>
+          )}
+
+          {privateProjects.length === 0 && !isLoadingPrivate && (
+            <div className="text-center py-10">
+              <p>Nenhum projeto encontrado.</p>
+            </div>
+          )}
+
+          {privateProjects.length > 0 && (
+            <div className="grid md:grid-cols-2 gap-4">
+              {privateProjects.map((project) => (
+                <ProjectCard key={project.name} {...project} />
+              ))}
+            </div>
+          )}
+
           <div className="mt-4 flex justify-center">
             <Link href="/projects/private" className="text-primary hover:underline">
               {t('projectsSection.viewAll.private')}
