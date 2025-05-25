@@ -10,7 +10,22 @@ export class DevlogService extends NotionService {
 
   constructor() {
     super();
-    this.devlogDatabaseId = process.env.NOTION_DEVLOG_DATABASE_ID;
+    // Get the database ID from environment variables
+    const rawDatabaseId = process.env.NOTION_DEVLOG_DATABASE_ID;
+
+    // Format the database ID if needed (add hyphens if they're missing)
+    if (rawDatabaseId && !rawDatabaseId.includes('-')) {
+      // Convert "1fde5e41c76f80beb566d42cf3b2dba1" to "1fde5e41-c76f-80be-b566-d42cf3b2dba1"
+      this.devlogDatabaseId = [
+        rawDatabaseId.substring(0, 8),
+        rawDatabaseId.substring(8, 12),
+        rawDatabaseId.substring(12, 16),
+        rawDatabaseId.substring(16, 20),
+        rawDatabaseId.substring(20)
+      ].join('-');
+    } else {
+      this.devlogDatabaseId = rawDatabaseId;
+    }
   }
 
   /**

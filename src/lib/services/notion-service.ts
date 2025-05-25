@@ -16,8 +16,14 @@ export class NotionService {
 
   constructor() {
     // Initialize the Notion client
+    const apiKey = process.env.NOTION_API_KEY;
+
+    if (!apiKey) {
+      console.error('Notion API key is not defined');
+    }
+
     this.notion = new Client({
-      auth: process.env.NOTION_API_KEY,
+      auth: apiKey,
     });
   }
 
@@ -239,6 +245,21 @@ export class NotionService {
         return items;
       } catch (error) {
         console.error(`Error fetching ${cacheKey} from Notion:`, error);
+
+        // Log more detailed error information
+        if (error instanceof Error) {
+          console.error(`Error name: ${error.name}`);
+          console.error(`Error message: ${error.message}`);
+          console.error(`Error stack: ${error.stack}`);
+        }
+
+        // Log the request parameters for debugging
+        console.error('Request parameters:', {
+          database_id: databaseId,
+          filter: JSON.stringify(filter),
+          sorts: JSON.stringify(sorts)
+        });
+
         return [];
       }
     };

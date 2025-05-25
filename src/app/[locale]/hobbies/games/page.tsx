@@ -12,7 +12,6 @@ export const metadata: Metadata = {
 export default async function GamesPage() {
   // Fetch games from Notion
   const games = await getGameCardProps();
-  console.log(games)
 
   return (
     <main className="space-y-12">

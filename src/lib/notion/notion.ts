@@ -8,13 +8,7 @@ import { devlogService } from '@/lib/services/devlog-service';
 import { gamesService } from '@/lib/services/games-service';
 
 // Re-export the services
-// export {
-//   devlogService,
-//   gameService,
-//   movieService,
-//   seriesService,
-//   animeService
-// } from './services';
+export { devlogService, gamesService };
 
 // Re-export the methods from the devlog service
 export const getDevlogEntries = () => devlogService.getDevlogEntries();
@@ -25,6 +19,3 @@ export const getGames = () => gamesService.getGames();
 export const getGameBySlug = (slug: string) => gamesService.getGameBySlug(slug);
 export const gameToGameCardProps = (game: any) => gamesService.gameToGameCardProps(game);
 export const getGameCardProps = () => gamesService.getGameCardProps();
-
-// Import the services for the re-exported methods
-// import { devlogService, gameService } from './services';
