@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { Heading } from '@/components/heading';
 import { ArrowLeft, Calendar, Tag } from 'lucide-react';
-import { getDevlogEntries, getDevlogEntryBySlug } from '@/lib/notion';
+import { getDevlogEntries, getDevlogEntryBySlug } from '@/lib/notion/notion';
 
 // Force static generation for this page
 export const dynamic = 'force-static';

@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { GamesSection } from '@/components/games-section';
 import { Heading } from '@/components/heading';
-import { getGameCardProps } from '@/lib/notion';
+import { getGameCardProps } from '@/lib/notion/notion';
 
 
 export const metadata: Metadata = {
@@ -12,6 +12,7 @@ export const metadata: Metadata = {
 export default async function GamesPage() {
   // Fetch games from Notion
   const games = await getGameCardProps();
+  console.log(games)
 
   return (
     <main className="space-y-12">

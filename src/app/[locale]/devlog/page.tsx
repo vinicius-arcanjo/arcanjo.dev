@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { Heading } from '@/components/heading';
 import { Scroll, Calendar, Tag } from 'lucide-react';
-import { getDevlogEntries } from '@/lib/notion';
+import { getDevlogEntries } from '@/lib/notion/notion';
 
 // Force static generation for this page
 export const dynamic = 'force-static';
