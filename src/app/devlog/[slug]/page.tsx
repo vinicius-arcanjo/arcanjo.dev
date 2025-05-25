@@ -40,7 +40,7 @@ export default async function DevlogPostPage({ params }: { params: { slug: strin
 
       <article className="space-y-8">
         <header className="space-y-4">
-          <Heading size="4xl" font="round">{entry.title}</Heading>
+          <Heading size="7xl" font="round">{entry.title}</Heading>
 
           <div className="flex items-center gap-4 text-sm text-muted-foreground">
             <span className="flex items-center gap-1">
