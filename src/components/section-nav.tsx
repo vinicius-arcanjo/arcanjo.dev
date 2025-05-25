@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import {
   Code,
@@ -6,16 +8,19 @@ import {
   UserRoundSearch,
   Palette
 } from 'lucide-react';
-
-const navLinks = [
-  { href: '/projects', icon: Code, label: 'Projetos' },
-  { href: '/devlog', icon: Scroll, label: 'Devlog' },
-  { href: '/about', icon: UserRoundSearch, label: 'Sobre' },
-  { href: '/hobbies', icon: Palette, label: 'Hobbies' },
-  { href: '/sandbox', icon: Box, label: 'Caixa de Pandora' },
-];
+import { useI18n } from '@/locales/client';
 
 export function SectionNav() {
+  const t = useI18n();
+
+  const navLinks = [
+    { href: '/projects', icon: Code, label: t('navigation.projects') },
+    { href: '/devlog', icon: Scroll, label: t('navigation.devlog') },
+    { href: '/about', icon: UserRoundSearch, label: t('navigation.about') },
+    { href: '/hobbies', icon: Palette, label: t('navigation.hobbies') },
+    { href: '/sandbox', icon: Box, label: t('navigation.pandoraBox') },
+  ];
+
   return (
     <menu className="w-full flex justify-center">
       <section className="grid grid-cols-2 gap-2 w-1/2">

@@ -13,8 +13,10 @@ import {
 } from 'lucide-react';
 import { LanguageSwitcher } from '@/components/language-switcher';
 import { ThemeToggle } from '@/components/theme-toggle';
+import { useI18n } from '@/locales/client';
 
 export function Header() {
+  const t = useI18n();
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -23,7 +25,7 @@ export function Header() {
         <div className="px-4 h-14 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <button
-              aria-label="Abrir menu"
+              aria-label={t('header.openMenu')}
               className="md:hidden"
               onClick={() => setIsOpen(true)}
             >
@@ -38,7 +40,7 @@ export function Header() {
                 height={32}
                 className="rounded-full border"
               />
-              <span className="font-semibold text-sm">Vinicius A.</span>
+              <span className="font-semibold text-sm">{t('header.name')}</span>
             </Link>
           </div>
 

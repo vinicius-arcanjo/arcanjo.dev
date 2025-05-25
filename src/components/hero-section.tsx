@@ -1,8 +1,11 @@
 import { Github, Linkedin, Twitter } from 'lucide-react';
 import Image from 'next/image';
 import { Heading } from '@/components/heading';
+import { useI18n } from '@/locales/client';
 
 export function HeroSection() {
+  const t = useI18n();
+
   return (
     <section className="text-center space-y-6">
       <div className="flex justify-center">
@@ -17,11 +20,11 @@ export function HeroSection() {
       </div>
 
       <div className="space-y-2">
-        <Heading size="5xl" font="strips">Vinicius Arcanjo</Heading>
+        <Heading size="5xl" font="strips">{t('heroSection.title')}</Heading>
         <p className="text-muted-foreground text-lg">
-          Open Sourcerer | E2E Developer | Palestrante <br/>
-          Microsoft MVP on Developer Technologies <br />
-          MySQL2 Co-Maintainer e Criador do Poku
+          {t('heroSection.subtitle')} <br/>
+          {t('heroSection.mvpTitle')} <br />
+          {t('heroSection.maintainer')}
         </p>
       </div>
 

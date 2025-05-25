@@ -6,6 +6,7 @@ import { ThemeProvider } from '@/components/theme-provider';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { I18nProviderClient } from '@/locales/client';
+import { getI18n } from '@/locales/server';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -104,13 +105,17 @@ const michelangeloVintage = localFont({
   display: 'swap',
 });
 
-export const metadata: Metadata = {
-  title: 'Vinícius Arcanjo - Software Engineer',
-  description: 'Software Engineer, passionate about building great products and solving complex problems.',
-  icons: {
-    icon: '/vercel.svg',
-  },
-};
+export async function generateMetadata({ params }: { params: { locale: string } }): Promise<Metadata> {
+  const t = await getI18n(params.locale);
+
+  return {
+    title: t('metadata.title'),
+    description: t('metadata.description'),
+    icons: {
+      icon: '/vercel.svg',
+    },
+  };
+}
 
 export default function RootLayout({
                                      children,
