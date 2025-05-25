@@ -105,17 +105,13 @@ const michelangeloVintage = localFont({
   display: 'swap',
 });
 
-// export async function generateMetadata({ params }: { params: { locale: string } }): Promise<Metadata> {
-//   const t = await getI18n(params.locale);
-//
-//   return {
-//     title: t('metadata.title'),
-//     description: t('metadata.description'),
-//     icons: {
-//       icon: '/vercel.svg',
-//     },
-//   };
-// }
+export const metadata: Metadata = {
+  title: 'Vinicius Arcanjo - Software Engineer',
+  description: 'Software Engineer, passionate about building great products and solving complex problems.',
+  icons: {
+    icon: '/vercel.svg',
+  },
+};
 
 export default function RootLayout({
                                      children,
