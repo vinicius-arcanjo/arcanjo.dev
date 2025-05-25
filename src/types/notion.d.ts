@@ -16,7 +16,7 @@ export interface Game {
   content: string;
   genres: string[];
   platforms: string[];
-  coverImage: string;
+  image: string;
   slug: string;
   rating: number;
   completed: boolean

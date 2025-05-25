@@ -306,7 +306,7 @@ const fetchGamesWithCache = unstable_cache(
           content: pageContent,
           genres: properties.Genres?.multi_select?.map((genre: any) => genre.name) || [],
           platforms: properties.Platforms?.multi_select?.map((platform: any) => platform.name) || [],
-          coverImage: properties.CoverImage?.url || properties.CoverImage?.files?.[0]?.file?.url || null,
+          coverImage: properties.Image?.url || properties.Image?.files?.[0]?.file?.url || null,
           slug: properties.Slug?.rich_text?.[0]?.plain_text || page.id,
           rating: properties.Rating?.number || 0,
           completed: properties.Completed?.checkbox || false,

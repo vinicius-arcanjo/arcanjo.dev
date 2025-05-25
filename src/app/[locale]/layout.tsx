@@ -6,7 +6,6 @@ import { ThemeProvider } from '@/components/theme-provider';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { I18nProviderClient } from '@/locales/client';
-import { getI18n } from '@/locales/server';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -113,14 +112,14 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
-                                     children,
-                                     params
-                                   }: Readonly<{
+export default async function RootLayout({
+  children,
+  params
+  }: Readonly<{
   children: React.ReactNode;
-  params?: { locale?: string };
+  params: { locale: string };
 }>) {
-  const locale = params?.locale || 'br';
+  const { locale } = await params;
 
   return (
     <html lang={locale} suppressHydrationWarning>
