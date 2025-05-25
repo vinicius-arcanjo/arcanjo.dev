@@ -1,6 +1,6 @@
 import { Client } from '@notionhq/client';
-import { DevlogEntry } from '@/app/devlog/data';
 import { unstable_cache } from 'next/cache';
+import { DevlogEntry } from '@/types/notion';
 
 // Initialize the Notion client
 // Note: In a production environment, this should be stored in environment variables
