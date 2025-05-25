@@ -105,17 +105,17 @@ const michelangeloVintage = localFont({
   display: 'swap',
 });
 
-export async function generateMetadata({ params }: { params: { locale: string } }): Promise<Metadata> {
-  const t = await getI18n(params.locale);
-
-  return {
-    title: t('metadata.title'),
-    description: t('metadata.description'),
-    icons: {
-      icon: '/vercel.svg',
-    },
-  };
-}
+// export async function generateMetadata({ params }: { params: { locale: string } }): Promise<Metadata> {
+//   const t = await getI18n(params.locale);
+//
+//   return {
+//     title: t('metadata.title'),
+//     description: t('metadata.description'),
+//     icons: {
+//       icon: '/vercel.svg',
+//     },
+//   };
+// }
 
 export default function RootLayout({
                                      children,
