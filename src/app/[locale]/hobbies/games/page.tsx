@@ -13,6 +13,8 @@ export default async function GamesPage() {
   // Fetch games from Notion
   const games = await getGameCardProps();
 
+  console.log(games)
+
   return (
     <main className="space-y-12">
       <Heading size="4xl" font="grunge" className="font-bold text-center mt-10">Games</Heading>
