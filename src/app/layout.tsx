@@ -5,7 +5,7 @@ import './globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
-// import { ThemeToggle } from "@/components/theme-toggle";
+import { I18nProviderClient } from '@/locales/client';
 
 const styreneB = localFont({
   src: '../../public/fonts/styrene-b-regular.woff',
@@ -114,11 +114,15 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
                                      children,
+                                     params
                                    }: Readonly<{
   children: React.ReactNode;
+  params?: { locale?: string };
 }>) {
+  const locale = params?.locale || 'br';
+
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
     <body
       className={`${styreneB.variable} 
       ${poppins.variable}
@@ -138,23 +142,25 @@ export default function RootLayout({
       ${michelangeloVintage.variable} 
       antialiased bg-background text-foreground min-h-screen font-sans`}
     >
-    <ThemeProvider
-      attribute="class"
-      defaultTheme="system"
-      enableSystem
-      disableTransitionOnChange
-    >
-      <div className="max-w-4xl mx-auto px-4 py-8 md:py-16 flex flex-col min-h-screen">
-      <Header />
-        {/*<header className="flex justify-end mb-8">*/}
-        {/*<ThemeToggle />*/}
-        {/*</header>*/}
-        <div className="flex-grow">
-          {children}
+    <I18nProviderClient locale={locale}>
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="system"
+        enableSystem
+        disableTransitionOnChange
+      >
+        <div className="max-w-4xl mx-auto px-4 py-8 md:py-16 flex flex-col min-h-screen">
+        <Header />
+          {/*<header className="flex justify-end mb-8">*/}
+          {/*<ThemeToggle />*/}
+          {/*</header>*/}
+          <div className="flex-grow">
+            {children}
+          </div>
+          <Footer />
         </div>
-        <Footer />
-      </div>
-    </ThemeProvider>
+      </ThemeProvider>
+    </I18nProviderClient>
     </body>
     </html>
   );
