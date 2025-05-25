@@ -18,4 +18,8 @@ export interface Game {
   platforms: string[];
   coverImage: string;
   slug: string;
+  rating: number;
+  completed: boolean
+  playAgain: boolean
+  played: boolean
 }
