@@ -7,25 +7,13 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useI18n } from '@/locales/client';
 import { createGitHubService } from "@/lib/services/github-service";
+import { privateProjects as privateProjectsData } from "@/lib/data/private-projects";
 
 export function ProjectsSection() {
   const t = useI18n();
   const [activeTab, setActiveTab] = useState("opensource");
   const [openSourceProjects, setOpenSourceProjects] = useState<ProjectCardProps[]>([]);
-  const [privateProjects, setPrivateProjects] = useState<ProjectCardProps[]>([
-    {
-      name: "E-commerce Platform",
-      description: "Plataforma de e-commerce completa com gestão de produtos, pedidos e clientes.",
-      url: "#",
-      topics: ["react", "node.js", "mongodb"],
-    },
-    {
-      name: "CRM System",
-      description: "Sistema de gestão de relacionamento com clientes para empresa de tecnologia.",
-      url: "#",
-      topics: ["angular", "express", "postgresql"],
-    },
-  ]);
+  const [privateProjects, setPrivateProjects] = useState<ProjectCardProps[]>(privateProjectsData);
   const [isLoadingOpenSource, setIsLoadingOpenSource] = useState(true);
   const [errorOpenSource, setErrorOpenSource] = useState<string | null>(null);
   const [isLoadingPrivate, setIsLoadingPrivate] = useState(false); // No need to load private projects initially
