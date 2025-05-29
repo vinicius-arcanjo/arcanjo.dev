@@ -6,6 +6,7 @@
  */
 import { devlogService } from '@/lib/services/devlog-service';
 import { gamesService } from '@/lib/services/games-service';
+import { Game } from '@/types/notion';
 
 // Re-export the services
 export { devlogService, gamesService };
@@ -17,5 +18,5 @@ export const getDevlogEntryBySlug = (slug: string) => devlogService.getDevlogEnt
 // Re-export the methods from the game service
 export const getGames = () => gamesService.getGames();
 export const getGameBySlug = (slug: string) => gamesService.getGameBySlug(slug);
-export const gameToGameCardProps = (game: any) => gamesService.gameToGameCardProps(game);
+export const gameToGameCardProps = (game: Game) => gamesService.gameToGameCardProps(game);
 export const getGameCardProps = () => gamesService.getGameCardProps();

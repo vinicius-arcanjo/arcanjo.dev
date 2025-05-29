@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from "react";
-import { AnimeCard, AnimeCardProps } from "@/components/anime-card";
+import { AnimeCardProps } from "@/components/anime-card";
 import { LayoutGrid, List } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
@@ -13,6 +13,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import Image from 'next/image';
 
 // Sample anime data
 const animes: AnimeCardProps[] = [
@@ -116,7 +117,7 @@ export function AnimeSection() {
               // Create a Skeleton component for the header
               const AnimeHeader = () => (
                 <div className="w-full h-60 overflow-hidden rounded-lg">
-                  <img
+                  <Image
                     src={anime.imageUrl}
                     alt={`Image of ${anime.title}`}
                     className="w-full h-full object-cover"

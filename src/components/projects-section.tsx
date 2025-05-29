@@ -13,10 +13,10 @@ export function ProjectsSection() {
   const t = useI18n();
   const [activeTab, setActiveTab] = useState("opensource");
   const [openSourceProjects, setOpenSourceProjects] = useState<ProjectCardProps[]>([]);
-  const [privateProjects, setPrivateProjects] = useState<ProjectCardProps[]>(privateProjectsData);
+  const [privateProjects] = useState<ProjectCardProps[]>(privateProjectsData);
   const [isLoadingOpenSource, setIsLoadingOpenSource] = useState(true);
   const [errorOpenSource, setErrorOpenSource] = useState<string | null>(null);
-  const [isLoadingPrivate, setIsLoadingPrivate] = useState(false); // No need to load private projects initially
+  const [isLoadingPrivate] = useState(false); // No need to load private projects initially
 
   useEffect(() => {
     async function fetchProjects() {

@@ -4,12 +4,12 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
 import {
-  Code,
-  MicVocal,
-  Scroll,
-  UserRoundSearch,
+  // Code,
+  // MicVocal,
+  // Scroll,
+  // UserRoundSearch,
   Menu,
-  X,
+  // X,
 } from 'lucide-react';
 import { LanguageSwitcher } from '@/components/language-switcher';
 import { ThemeToggle } from '@/components/theme-toggle';
@@ -17,7 +17,7 @@ import { useI18n } from '@/locales/client';
 
 export function Header() {
   const t = useI18n();
-  const [isOpen, setIsOpen] = useState(false);
+  const [, setIsOpen] = useState(false);
 
   return (
     <>
