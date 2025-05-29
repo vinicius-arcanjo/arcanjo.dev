@@ -8,7 +8,7 @@ import { Star, StarHalf } from 'lucide-react';
 export interface GameCardProps {
   title: string;
   description: string;
-  imageUrl: string;
+  imageUrl?: string;
   rating: number; // 0.0 to 5.0
   completed: boolean;
   wouldPlayAgain: boolean;

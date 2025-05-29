@@ -1,22 +1,22 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import { Poppins } from 'next/font/google';
-import './globals.css';
+import '../../styles/globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
-// import { ThemeToggle } from "@/components/theme-toggle";
-
-const styreneB = localFont({
-  src: '../../public/fonts/styrene-b-regular.woff',
-  variable: '--font-styrene-b',
-  display: 'swap',
-});
+import { I18nProviderClient } from '@/locales/client';
 
 const poppins = Poppins({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
   variable: '--font-poppins',
+  display: 'swap',
+});
+
+const styreneB = localFont({
+  src: '../../../public/fonts/styrene-b-regular.woff',
+  variable: '--font-styrene-b',
   display: 'swap',
 });
 
@@ -105,20 +105,24 @@ const michelangeloVintage = localFont({
 });
 
 export const metadata: Metadata = {
-  title: 'Vinícius Arcanjo - Software Engineer',
+  title: 'Vinicius Arcanjo - Software Engineer',
   description: 'Software Engineer, passionate about building great products and solving complex problems.',
   icons: {
     icon: '/vercel.svg',
   },
 };
 
-export default function RootLayout({
-                                     children,
-                                   }: Readonly<{
+export default async function RootLayout({
+  children,
+  params
+  }: Readonly<{
   children: React.ReactNode;
+  params: { locale: string };
 }>) {
+  const { locale } = await params;
+
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
     <body
       className={`${styreneB.variable} 
       ${poppins.variable}
@@ -138,23 +142,25 @@ export default function RootLayout({
       ${michelangeloVintage.variable} 
       antialiased bg-background text-foreground min-h-screen font-sans`}
     >
-    <ThemeProvider
-      attribute="class"
-      defaultTheme="system"
-      enableSystem
-      disableTransitionOnChange
-    >
-      <div className="max-w-4xl mx-auto px-4 py-8 md:py-16 flex flex-col min-h-screen">
-      <Header />
-        {/*<header className="flex justify-end mb-8">*/}
-        {/*<ThemeToggle />*/}
-        {/*</header>*/}
-        <div className="flex-grow">
-          {children}
+    <I18nProviderClient locale={locale}>
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="system"
+        enableSystem
+        disableTransitionOnChange
+      >
+        <div className="max-w-4xl mx-auto px-4 py-8 md:py-16 flex flex-col min-h-screen">
+        <Header />
+          {/*<header className="flex justify-end mb-8">*/}
+          {/*<ThemeToggle />*/}
+          {/*</header>*/}
+          <div className="flex-grow">
+            {children}
+          </div>
+          <Footer />
         </div>
-        <Footer />
-      </div>
-    </ThemeProvider>
+      </ThemeProvider>
+    </I18nProviderClient>
     </body>
     </html>
   );

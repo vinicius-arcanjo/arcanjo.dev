@@ -4,18 +4,21 @@ import { useState, useRef, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { ChevronDown } from 'lucide-react';
 import clsx from 'clsx';
+import { useChangeLocale, useCurrentLocale } from '@/locales/client';
 
 export function LanguageSwitcher() {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
+  const currentLocale = useCurrentLocale();
+  const changeLocale = useChangeLocale();
 
   const languages = [
-    { label: 'Português (Brasil)', locale: 'pt-BR', path: '/' },
+    { label: 'Português (Brasil)', locale: 'br', path: '/' },
     { label: 'English', locale: 'en', path: '/en' },
   ];
 
-  const current = languages.find((lang) => pathname.startsWith(lang.path)) || languages[0];
+  const current = languages.find((lang) => lang.locale === currentLocale) || languages[0];
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
@@ -59,17 +62,20 @@ export function LanguageSwitcher() {
       >
         {languages.map((lang) => (
           <li key={lang.locale}>
-            <a
-              href={lang.path}
+            <button
+              type="button"
               lang={lang.locale}
               className={clsx(
-                'block px-4 py-2 text-sm hover:bg-muted transition',
-                pathname === lang.path && 'font-semibold'
+                'block w-full text-left px-4 py-2 text-sm hover:bg-muted transition',
+                currentLocale === lang.locale && 'font-semibold'
               )}
-              onClick={() => setOpen(false)}
+              onClick={() => {
+                changeLocale(lang.locale as 'br' | 'en');
+                setOpen(false);
+              }}
             >
               {lang.label}
-            </a>
+            </button>
           </li>
         ))}
       </ul>
