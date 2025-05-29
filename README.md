@@ -1,58 +1,137 @@
-# Devlog com Integração Notion
+# Arcanjo
 
-Este diretório contém a implementação do Devlog, que agora é alimentado através do Notion.
+Arcanjo is a personal website/portfolio built with Next.js that showcases projects, hobbies, and a developer log (devlog) with various integrations including Notion and GitHub.
 
-## Configuração
+## Features
 
-Para configurar a integração com o Notion, siga os passos abaixo:
+- **Internationalization**: Multi-language support using next-international
+- **Theme Support**: Light and dark mode using next-themes
+- **Projects Section**: Showcase of personal projects with GitHub integration
+- **Hobbies Section**: Display of personal interests including:
+  - Anime
+  - Movies
+  - TV Series
+  - Games
+- **Developer Log (Devlog)**: Blog-like section powered by Notion integration
+- **Responsive Design**: Built with Tailwind CSS for a responsive layout
 
-1. Crie uma integração no Notion:
-   - Acesse [https://www.notion.so/my-integrations](https://www.notion.so/my-integrations)
-   - Clique em "New integration"
-   - Dê um nome à sua integração (ex: "Arcanjo Devlog")
-   - Selecione o workspace onde seu banco de dados do devlog está localizado
-   - Clique em "Submit"
-   - Copie o "Internal Integration Token" (este será seu `NOTION_API_KEY`)
+## Technologies Used
 
-2. Crie um banco de dados no Notion para o devlog com as seguintes propriedades:
-   - Title (título): Tipo "Title"
-   - Date (data): Tipo "Date"
-   - Summary (resumo): Tipo "Text"
-   - Content (conteúdo): Tipo "Text" (para conteúdo HTML)
-   - Tags: Tipo "Multi-select"
-   - Slug: Tipo "Text" (para URLs amigáveis)
+- **Next.js 15**: React framework with App Router
+- **React 19**: UI library
+- **TypeScript**: Type-safe JavaScript
+- **Tailwind CSS**: Utility-first CSS framework
+- **Radix UI**: Unstyled, accessible UI components
+- **Notion API**: For content management
+- **GitHub API**: For project information
+- **next-international**: For internationalization
+- **next-themes**: For theme management
 
-3. Compartilhe o banco de dados com sua integração:
-   - Abra o banco de dados no Notion
-   - Clique em "Share" no canto superior direito
-   - Clique em "Invite" e selecione sua integração na lista
+## Getting Started
 
-4. Obtenha o ID do banco de dados:
-   - Abra o banco de dados no Notion
-   - Copie o ID da URL: `https://www.notion.so/{workspace_name}/{database_id}?v={view_id}`
-   - O ID é a parte entre o nome do workspace e o parâmetro "?v"
+### Prerequisites
 
-5. Configure as variáveis de ambiente:
-   - Adicione as seguintes variáveis ao arquivo `.env.local` na raiz do projeto:
-     ```
-     NOTION_API_KEY=seu_token_de_integracao
-     NOTION_DEVLOG_DATABASE_ID=id_do_seu_banco_de_dados
-     ```
+- Node.js (v18 or higher)
+- npm or yarn
 
-## Estrutura
+### Installation
 
-- `page.tsx`: Página principal do devlog que lista todas as entradas
-- `[slug]/page.tsx`: Página de entrada individual do devlog
-- `data.ts`: Contém a interface `DevlogEntry` usada pelo sistema
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/arcanjo.git
+   cd arcanjo
+   ```
 
-## Uso
+2. Install dependencies:
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
 
-Para adicionar novas entradas ao devlog, basta criar novos itens no banco de dados do Notion. As entradas serão automaticamente exibidas no site após a atualização.
+3. Create a `.env.local` file in the root directory with the necessary environment variables (see Environment Variables section below).
 
-Cada entrada deve ter:
-- Um título
-- Uma data
-- Um resumo
-- Conteúdo HTML
-- Tags (opcional)
-- Um slug único para a URL
+4. Start the development server:
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
+
+5. Open [http://localhost:3000](http://localhost:3000) in your browser to see the application.
+
+## Environment Variables
+
+Create a `.env.local` file in the root directory with the following variables:
+
+```
+# Notion Integration
+NOTION_API_KEY=your_notion_api_key
+NOTION_DEVLOG_DATABASE_ID=your_notion_database_id
+
+# GitHub Integration
+GITHUB_TOKEN=your_github_token
+```
+
+See the env.exemple file for a complete list of required environment variables.
+
+## Notion Integration for Devlog
+
+### Configuration
+
+1. Create a Notion integration:
+   - Go to [https://www.notion.so/my-integrations](https://www.notion.so/my-integrations)
+   - Click on "New integration"
+   - Name your integration (e.g., "Arcanjo Devlog")
+   - Select the workspace where your devlog database is located
+   - Click on "Submit"
+   - Copy the "Internal Integration Token" (this will be your `NOTION_API_KEY`)
+
+2. Create a Notion database for the devlog with the following properties:
+   - Title (title): Type "Title"
+   - Date (data): Type "Date"
+   - Summary (resumo): Type "Text"
+   - Content (conteúdo): Type "Text" (for HTML content)
+   - Tags: Type "Multi-select"
+   - Slug: Type "Text" (for friendly URLs)
+
+3. Share the database with your integration:
+   - Open the database in Notion
+   - Click on "Share" in the top right corner
+   - Click on "Invite" and select your integration from the list
+
+4. Get the database ID:
+   - Open the database in Notion
+   - Copy the ID from the URL: `https://www.notion.so/{workspace_name}/{database_id}?v={view_id}`
+   - The ID is the part between the workspace name and the "?v" parameter
+
+5. Add the environment variables to your `.env.local` file:
+   ```
+   NOTION_API_KEY=your_integration_token
+   NOTION_DEVLOG_DATABASE_ID=your_database_id
+   ```
+
+### Usage
+
+To add new entries to the devlog, simply create new items in your Notion database. The entries will be automatically displayed on the website after an update.
+
+Each entry should have:
+- A title
+- A date
+- A summary
+- HTML content
+- Tags (optional)
+- A unique slug for the URL
+
+## Project Structure
+
+- `src/app/[locale]`: Contains the main pages and routes with locale support
+- `src/components`: Reusable UI components
+- `src/lib/services`: Service integrations (Notion, GitHub, etc.)
+- `src/locales`: Internationalization files
+- `src/styles`: CSS and styling files
+- `src/types`: TypeScript type definitions
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
