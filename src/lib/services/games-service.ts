@@ -16,7 +16,6 @@ export class GamesService extends NotionService {
 
     // Format the database ID if needed (add hyphens if they're missing)
     if (rawDatabaseId && !rawDatabaseId.includes('-')) {
-      // Convert "1fee5e41c76f801fad0dc0b6c9d021bf" to "1fee5e41-c76f-801f-ad0d-c0b6c9d021bf"
       this.gamesDatabaseId = [
         rawDatabaseId.substring(0, 8),
         rawDatabaseId.substring(8, 12),
