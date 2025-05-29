@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { usePathname } from 'next/navigation';
+// import { usePathname } from 'next/navigation';
 import { ChevronDown } from 'lucide-react';
 import clsx from 'clsx';
 import { useChangeLocale, useCurrentLocale } from '@/locales/client';
@@ -9,7 +9,7 @@ import { useChangeLocale, useCurrentLocale } from '@/locales/client';
 export function LanguageSwitcher() {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
-  const pathname = usePathname();
+  // const pathname = usePathname();
   const currentLocale = useCurrentLocale();
   const changeLocale = useChangeLocale();
 

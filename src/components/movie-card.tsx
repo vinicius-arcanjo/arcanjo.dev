@@ -3,6 +3,7 @@
 import React from "react";
 import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card";
 import { Star, StarHalf } from 'lucide-react';
+import Image from 'next/image';
 
 export interface MovieCardProps {
   title: string;
@@ -79,7 +80,7 @@ export function MovieCard({
 
         {/* Imagem */}
         <CardItem translateZ="100" className="w-full mt-4">
-          <img
+          <Image
             src={imageUrl}
             height="1000"
             width="1000"

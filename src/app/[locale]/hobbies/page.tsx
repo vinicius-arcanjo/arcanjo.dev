@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { Gamepad2, Film, Tv, Clapperboard } from 'lucide-react';
+// import { Gamepad2, Film, Tv, Clapperboard } from 'lucide-react';
+import { Gamepad2 } from 'lucide-react';
 import { Heading } from '@/components/heading';
 
 export const metadata: Metadata = {
