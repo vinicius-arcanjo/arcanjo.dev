@@ -82,8 +82,8 @@ const DialogFooter = ({
 DialogFooter.displayName = "DialogFooter"
 
 const DialogTitle = React.forwardRef<
-  React.ElementRef<typeof DialogPrimitive.Heading>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Heading>
+  React.ElementRef<typeof DialogPrimitive.DialogTitle>,
+  React.ComponentPropsWithoutRef<typeof DialogPrimitive.DialogTitle>
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Title
     ref={ref}

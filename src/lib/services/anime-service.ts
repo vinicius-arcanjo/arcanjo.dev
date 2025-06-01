@@ -63,7 +63,7 @@ export class AnimeService extends NotionService {
       releaseDate: properties.ReleaseDate?.date?.start || '',
       description: properties.Description?.rich_text?.[0]?.plain_text || '',
       content: pageContent,
-      genres: properties.Genres?.multi_select?.map((genre: any) => genre.name) || [],
+      genres: properties.Genres?.multi_select?.map((genre: { name: any; }) => genre.name) || [],
       studio: properties.Studio?.rich_text?.[0]?.plain_text || '',
       image: properties.Image?.url || properties.Image?.files?.[0]?.file?.url || null,
       slug: properties.Slug?.rich_text?.[0]?.plain_text || page.id,

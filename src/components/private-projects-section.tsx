@@ -1,7 +1,7 @@
 'use client'
 
 import { ProjectCard } from "@/components/project-card";
-import { Heading } from '@/components/heading';
+// import { Heading } from '@/components/heading';
 import { privateProjects as privateProjectsData } from "@/lib/data/private-projects";
 
 export function PrivateProjectsSection() {

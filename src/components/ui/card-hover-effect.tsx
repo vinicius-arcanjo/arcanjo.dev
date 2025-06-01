@@ -19,7 +19,7 @@ export const CardHoverEffect = ({
   className?: string;
   variant?: "default" | "outline";
 }) => {
-  let [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
     <div

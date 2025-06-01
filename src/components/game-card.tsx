@@ -3,6 +3,7 @@
 import React from "react";
 import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card";
 import { Star, StarHalf } from 'lucide-react';
+import Image from 'next/image';
 
 
 export interface GameCardProps {
@@ -34,7 +35,7 @@ export function GameCard({
       stars.push(<Star key={`star-${i}`} className="w-4 h-4 fill-yellow-400 text-yellow-400" />);
     }
 
-    // Add half star if needed
+    // Add half-star if needed
     if (hasHalfStar) {
       stars.push(<StarHalf key="half-star" className="w-4 h-4 fill-yellow-400 text-yellow-400" />);
     }
@@ -70,8 +71,8 @@ export function GameCard({
 
         {/* Imagem */}
         <CardItem translateZ="100" className="w-full mt-4">
-          <img
-            src={imageUrl}
+          <Image
+            src={imageUrl ?? ''}
             height="1000"
             width="1000"
             className="h-60 w-full object-cover rounded-xl group-hover/card:shadow-xl"

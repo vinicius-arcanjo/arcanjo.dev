@@ -19,7 +19,8 @@ export async function generateStaticParams() {
 }
 
 // Generate metadata for the page dynamically based on the slug
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+// export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+export async function generateMetadata({ params }: any): Promise<Metadata> {
   const resolvedParams = await params;
   const entry = await getDevlogEntryBySlug(resolvedParams.slug);
 
@@ -36,7 +37,8 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   };
 }
 
-export default async function DevlogPostPage({ params }: { params: { slug: string } }) {
+// export default async function DevlogPostPage({ params }: { params: { slug: string } }) {
+export default async function DevlogPostPage({ params }: any) {
   const entry = await getDevlogEntryBySlug(params.slug);
 
   // If the entry doesn't exist, show a 404 page
