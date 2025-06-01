@@ -1,4 +1,4 @@
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import React from "react";
 
 export type AnimationVariant = "one" | "two" | "three" | "four" | "five" | "none";
