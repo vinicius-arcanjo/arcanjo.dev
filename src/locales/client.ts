@@ -15,3 +15,5 @@ export const {
   br: () => import('./pt-br'),
   en: () => import('./en'),
 })
+
+export default I18nProviderClient

@@ -5,7 +5,7 @@ import '../../styles/globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
-import { I18nProviderClient } from '@/locales/client';
+import I18nProviderClient from '@/locales/client';
 
 const poppins = Poppins({
   subsets: ['latin'],
