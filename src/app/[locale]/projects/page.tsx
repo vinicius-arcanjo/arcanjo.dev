@@ -4,8 +4,8 @@ import { Heading } from '@/components/heading';
 import { CardHoverEffect } from '@/components/ui/card-hover-effect';
 
 // Force static generation for this page
-export const dynamic = 'force-static';
-export const revalidate = false; // Never revalidate, use build time data
+// export const dynamic = 'force-static';
+// export const revalidate = false; // Never revalidate, use build time data
 
 export const metadata: Metadata = {
   title: 'Projetos - Vinícius Arcanjo',

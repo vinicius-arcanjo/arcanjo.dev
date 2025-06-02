@@ -4,8 +4,8 @@ import { SectionNav } from '@/components/section-nav';
 // import { TimelineSection } from "@/components/timeline-section";
 
 // Force static generation for this page
-export const dynamic = 'force-static';
-export const revalidate = false; // Never revalidate, use build time data
+// export const dynamic = 'force-static';
+// export const revalidate = false; // Never revalidate, use build time data
 
 export default function Home() {
   return (

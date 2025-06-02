@@ -4,8 +4,8 @@ import { Scroll, Calendar, Tag } from 'lucide-react';
 import { getDevlogEntries } from '@/lib/notion/notion';
 
 // Force static generation for this page
-export const dynamic = 'force-static';
-export const revalidate = false; // Never revalidate, use build time data
+// export const dynamic = 'force-static';
+// export const revalidate = false; // Never revalidate, use build time data
 
 export const metadata: Metadata = {
   title: 'Devlog - Vinícius Arcanjo',
