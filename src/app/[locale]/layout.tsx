@@ -6,6 +6,7 @@ import { ThemeProvider } from '@/components/theme-provider';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import I18nProviderClient from '@/locales/client';
+import { Analytics } from '@/components/analytics';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -123,6 +124,9 @@ export default function RootLayout({
 
   return (
     <html lang={locale} suppressHydrationWarning>
+    <head>
+      <Analytics />
+    </head>
     <body
       className={`${styreneB.variable} 
       ${poppins.variable}
