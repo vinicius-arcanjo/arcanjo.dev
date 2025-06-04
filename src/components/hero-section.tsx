@@ -1,6 +1,6 @@
 'use client'
 
-import { Github, Linkedin, Twitter } from 'lucide-react';
+import { Github, Linkedin } from 'lucide-react';
 import Image from 'next/image';
 import { Heading } from '@/components/heading';
 import { useI18n } from '@/locales/client';

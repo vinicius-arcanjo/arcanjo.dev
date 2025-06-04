@@ -3,10 +3,10 @@
 import Link from 'next/link';
 import {
   Code,
-  Box,
+  // Box,
   Scroll,
-  UserRoundSearch,
-  Palette
+  // UserRoundSearch,
+  // Palette
 } from 'lucide-react';
 import { useI18n } from '@/locales/client';
 
