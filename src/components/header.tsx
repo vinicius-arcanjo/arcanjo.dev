@@ -34,7 +34,7 @@ export function Header() {
 
             <Link href="/" className="flex items-center gap-2">
               <Image
-                src="/avatar.jpg"
+                src="/avatar-one.jpeg"
                 alt="Avatar"
                 width={32}
                 height={32}

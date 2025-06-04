@@ -22,85 +22,85 @@ const styreneB = localFont({
 });
 
 const michelangeloStrips = localFont({
-  src: './fonts/michelangelo-strips.woff2',
+  src: '../../../public/fonts/michelangelo-strips.woff2',
   variable: '--font-michelangelo-strips',
   display: 'swap',
 });
 
 const michelangeloClock = localFont({
-  src: './fonts/michelangelo-clock.otf',
+  src: '../../../public/fonts/michelangelo-clock.otf',
   variable: '--font-michelangelo-clock',
   display: 'swap',
 });
 
 const michelangeloGrunge = localFont({
-  src: './fonts/michelangelo-grunge.otf',
+  src: '../../../public/fonts/michelangelo-grunge.otf',
   variable: '--font-michelangelo-grunge',
   display: 'swap',
 });
 
 const michelangeloInline = localFont({
-  src: './fonts/michelangelo-inline.otf',
+  src: '../../../public/fonts/michelangelo-inline.otf',
   variable: '--font-michelangelo-inline',
   display: 'swap',
 });
 
 const michelangeloMinimal = localFont({
-  src: './fonts/michelangelo-minimal.otf',
+  src: '../../../public/fonts/michelangelo-minimal.otf',
   variable: '--font-michelangelo-minimal',
   display: 'swap',
 });
 
 const michelangeloOutline01 = localFont({
-  src: './fonts/michelangelo-outline01.otf',
+  src: '../../../public/fonts/michelangelo-outline01.otf',
   variable: '--font-michelangelo-outline01',
   display: 'swap',
 });
 
 const michelangeloOutline02 = localFont({
-  src: './fonts/michelangelo-outline02.otf',
+  src: '../../../public/fonts/michelangelo-outline02.otf',
   variable: '--font-michelangelo-outline02',
   display: 'swap',
 });
 
 const michelangeloRegular = localFont({
-  src: './fonts/michelangelo-regular-1.otf',
+  src: '../../../public/fonts/michelangelo-regular-1.otf',
   variable: '--font-michelangelo-regular',
   display: 'swap',
 });
 
 const michelangeloRound = localFont({
-  src: './fonts/michelangelo-round.otf',
+  src: '../../../public/fonts/michelangelo-round.otf',
   variable: '--font-michelangelo-round',
   display: 'swap',
 });
 
 const michelangeloShadow01 = localFont({
-  src: './fonts/michelangelo-shadow01.otf',
+  src: '../../../public/fonts/michelangelo-shadow01.otf',
   variable: '--font-michelangelo-shadow01',
   display: 'swap',
 });
 
 const michelangeloShadow02 = localFont({
-  src: './fonts/michelangelo-shadow02.otf',
+  src: '../../../public/fonts/michelangelo-shadow02.otf',
   variable: '--font-michelangelo-shadow02',
   display: 'swap',
 });
 
 const michelangeloSpur = localFont({
-  src: './fonts/michelangelo-spur.otf',
+  src: '../../../public/fonts/michelangelo-spur.otf',
   variable: '--font-michelangelo-spur',
   display: 'swap',
 });
 
 const michelangeloStencil = localFont({
-  src: './fonts/michelangelo-stencil.otf',
+  src: '../../../public/fonts/michelangelo-stencil.otf',
   variable: '--font-michelangelo-stencil',
   display: 'swap',
 });
 
 const michelangeloVintage = localFont({
-  src: './fonts/michelangelo-vintage.otf',
+  src: '../../../public/fonts/michelangelo-vintage.otf',
   variable: '--font-michelangelo-vintage',
   display: 'swap',
 });
@@ -113,14 +113,14 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
   params
   }: Readonly<{
   children: React.ReactNode;
   params: { locale: string };
 }>) {
-  const { locale } = params;
+  const { locale } = await params;
 
   return (
     <html lang={locale} suppressHydrationWarning>

@@ -19,9 +19,9 @@ export default {
   // Hero Section
   heroSection: {
     title: 'Vinicius Arcanjo',
-    subtitle: 'Open Sourcerer | E2E Developer | Palestrante',
-    mvpTitle: 'Microsoft MVP on Developer Technologies',
-    maintainer: 'MySQL2 Co-Maintainer e Criador do Poku'
+    subtitle: 'Senior Software Engineer | DevOps | Open Sourcerer',
+    mvpTitle: 'Arquiteto de Microsserviços | Explorando IA aplicada a produtos reais',
+    maintainer: ''
   },
 
   // Projects Section
@@ -35,16 +35,6 @@ export default {
       openSource: 'Ver todos os projetos open source →',
       private: 'Ver todos os projetos privados →'
     },
-    projects: {
-      portfolio: {
-        name: 'meu-portfólio',
-        description: 'Meu site pessoal com Next.js, Tailwind e shadcn/ui.'
-      },
-      githubScraper: {
-        name: 'github-scraper',
-        description: 'Script para coletar dados públicos do GitHub.'
-      }
-    }
   },
 
   // Navigation

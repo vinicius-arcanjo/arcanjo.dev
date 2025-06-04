@@ -12,13 +12,11 @@ export class GitHubService {
   }
 
   /**
-   * Fetches public repositories for the user
+   * Fetches public repositories for the user with blacklist topic filtering
    */
   async getProjects(): Promise<ProjectCardProps[]> {
     try {
       const response = await fetch(`${this.apiUrl}/users/${this.username}/repos?sort=updated&direction=desc`);
-
-      console.log(this.username)
 
       if (!response.ok) {
         throw new Error(`GitHub API error: ${response.status}`);
@@ -26,12 +24,15 @@ export class GitHubService {
 
       const repos = await response.json();
 
-      return repos.map((repo: any) => ({
-        name: repo.name,
-        description: repo.description || 'No description available',
-        url: repo.html_url,
-        topics: repo.topics || [],
-      }));
+      // Filters repositories that do NOT have the 'not-list' topic
+      return repos
+        .filter((repo: any) => !(repo.topics || []).includes('not-list'))
+        .map((repo: any) => ({
+          name: repo.name,
+          description: repo.description || 'No description available',
+          url: repo.html_url,
+          topics: repo.topics || [],
+        }));
     } catch (error) {
       console.error('Error fetching GitHub projects:', error);
       return [];

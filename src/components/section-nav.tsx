@@ -16,9 +16,9 @@ export function SectionNav() {
   const navLinks = [
     { href: '/projects', icon: Code, label: t('navigation.projects') },
     { href: '/devlog', icon: Scroll, label: t('navigation.devlog') },
-    { href: '/about', icon: UserRoundSearch, label: t('navigation.about') },
-    { href: '/hobbies', icon: Palette, label: t('navigation.hobbies') },
-    { href: '/sandbox', icon: Box, label: t('navigation.pandoraBox') },
+    // { href: '/about', icon: UserRoundSearch, label: t('navigation.about') },
+    // { href: '/hobbies', icon: Palette, label: t('navigation.hobbies') },
+    // { href: '/sandbox', icon: Box, label: t('navigation.pandoraBox') },
   ];
 
   return (

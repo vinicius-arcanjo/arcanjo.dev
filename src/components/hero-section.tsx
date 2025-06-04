@@ -13,7 +13,7 @@ export function HeroSection() {
       <div className="flex justify-center">
         <div className="w-28 h-28 relative rounded-full overflow-hidden border-4 border-primary">
           <Image
-            src="/avatar.jpg"
+            src="/avatar-one.jpeg"
             alt="Avatar"
             fill
             className="object-cover"
@@ -26,19 +26,16 @@ export function HeroSection() {
         <p className="text-muted-foreground text-lg">
           {t('heroSection.subtitle')} <br/>
           {t('heroSection.mvpTitle')} <br />
-          {t('heroSection.maintainer')}
+          {/*{t('heroSection.maintainer')}*/}
         </p>
       </div>
 
       <div className="flex justify-center gap-6 pt-2">
-        <a href="https://github.com/weslley" target="_blank" rel="noreferrer">
+        <a href="https://github.com/vinicius-arcanjo" target="_blank" rel="noreferrer">
           <Github className="w-5 h-5" />
         </a>
-        <a href="https://linkedin.com/in/weslley" target="_blank" rel="noreferrer">
+        <a href="https://www.linkedin.com/in/viniciusarcanjo/" target="_blank" rel="noreferrer">
           <Linkedin className="w-5 h-5" />
-        </a>
-        <a href="https://twitter.com/weslley" target="_blank" rel="noreferrer">
-          <Twitter className="w-5 h-5" />
         </a>
       </div>
     </section>
