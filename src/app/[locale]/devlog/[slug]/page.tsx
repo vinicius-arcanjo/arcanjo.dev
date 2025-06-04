@@ -6,8 +6,8 @@ import { ArrowLeft, Calendar, Tag } from 'lucide-react';
 import { getDevlogEntries, getDevlogEntryBySlug } from '@/lib/notion/notion';
 
 // Force static generation for this page
-export const dynamic = 'force-static';
-export const revalidate = false; // Never revalidate, use build time data
+// export const dynamic = 'force-static';
+// export const revalidate = false; // Never revalidate, use build time data
 
 // Generate static params for all devlog entries
 export async function generateStaticParams() {
@@ -39,7 +39,9 @@ export async function generateMetadata({ params }: any): Promise<Metadata> {
 
 // export default async function DevlogPostPage({ params }: { params: { slug: string } }) {
 export default async function DevlogPostPage({ params }: any) {
-  const entry = await getDevlogEntryBySlug(params.slug);
+  const { slug } = await params
+
+  const entry = await getDevlogEntryBySlug(slug);
 
   // If the entry doesn't exist, show a 404 page
   if (!entry) {
